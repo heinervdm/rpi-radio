@@ -1,22 +1,35 @@
 #include "rpi-radio.h"
+#include "rpi-radio.moc"
 
 #include <QtGui/QLabel>
-#include <QtGui/QMenu>
-#include <QtGui/QMenuBar>
-#include <QtGui/QAction>
+#include <QtGui/QHBoxLayout>
 
-rpi_radio::rpi_radio()
-{
-    QLabel* l = new QLabel( this );
-    l->setText( "Hello World!" );
-    setCentralWidget( l );
-    QAction* a = new QAction(this);
-    a->setText( "Quit" );
-    connect(a, SIGNAL(triggered()), SLOT(close()) );
-    menuBar()->addMenu( "File" )->addAction( a );
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
+
+rpi_radio::rpi_radio() {
+	setBackgroundRole(QPalette::Shadow);
+	QHBoxLayout *l = new QHBoxLayout;
+	setLayout(l);
+	timeLabel = new QLabel;
+	timeLabel->setForegroundRole(QPalette::Light);
+	l->addWidget(timeLabel, Qt::AlignCenter);
+	points = true;
+	updateTime();
+	QTimer *timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(updateTime()));
+	timer->start(1000);
 }
 
-rpi_radio::~rpi_radio()
-{}
+rpi_radio::~rpi_radio() {}
 
-#include "rpi-radio.moc"
+void rpi_radio::updateTime() {
+	if (points) {
+		timeLabel->setText(QTime::currentTime().toString("HH:mm"));
+		points = false;
+	}
+	else {		timeLabel->setText(QTime::currentTime().toString("HH mm"));
+		points = true;
+	}
+	
+}
