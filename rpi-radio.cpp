@@ -1,35 +1,33 @@
 #include "rpi-radio.h"
 #include "rpi-radio.moc"
 
-#include <QtGui/QLabel>
-#include <QtGui/QHBoxLayout>
-
-#include <QtCore/QTime>
-#include <QtCore/QTimer>
-
 rpi_radio::rpi_radio() {
-	setBackgroundRole(QPalette::Shadow);
-	QHBoxLayout *l = new QHBoxLayout;
-	setLayout(l);
-	timeLabel = new QLabel;
-	timeLabel->setForegroundRole(QPalette::Light);
-	l->addWidget(timeLabel, Qt::AlignCenter);
-	points = true;
-	updateTime();
-	QTimer *timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(updateTime()));
-	timer->start(1000);
+	setFixedSize(160, 128);
+	layout = new QGridLayout;
+	layout->setContentsMargins(0, 0, 0, 0);
+	setLayout(layout);
+	setStyleSheet("margin:0; padding:0; background-color: black; color:white;");
+
+	player = new PlayerWidget;
+	clock = new ClockWidget;
+	connect(clock,SIGNAL(clicked()),this,SLOT(changeWidget()));
+
+	layout->addWidget(clock, 0, 0);
 }
 
-rpi_radio::~rpi_radio() {}
+rpi_radio::~rpi_radio() {
+	player->deleteLater();
+	clock->deleteLater();
+	delete layout;
+}
 
-void rpi_radio::updateTime() {
-	if (points) {
-		timeLabel->setText(QTime::currentTime().toString("HH:mm"));
-		points = false;
+void rpi_radio::changeWidget() {
+	if (layout->indexOf(clock) > -1) {
+		layout->removeWidget(clock);
+		layout->addWidget(player,0,0);
 	}
-	else {		timeLabel->setText(QTime::currentTime().toString("HH mm"));
-		points = true;
+	else {
+		layout->removeWidget(player);
+		layout->addWidget(clock,0,0);
 	}
-	
 }

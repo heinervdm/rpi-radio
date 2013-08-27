@@ -2,19 +2,22 @@
 #define rpi_radio_H
 
 #include <QtGui/QWidget>
-#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
 
-class rpi_radio : public QWidget
-{
-Q_OBJECT
-public:
-    rpi_radio();
-    virtual ~rpi_radio();
-private:
-	QLabel *timeLabel;
-	bool points;
-private slots:
-	void updateTime();
+#include "ClockWidget.h"
+#include "PlayerWidget.h"
+
+class rpi_radio : public QWidget {
+		Q_OBJECT
+	public:
+		rpi_radio();
+		virtual ~rpi_radio();
+	private:
+		ClockWidget *clock;
+		PlayerWidget *player;
+		QGridLayout *layout;
+	public slots:
+		void changeWidget();
 };
 
 #endif // rpi_radio_H
