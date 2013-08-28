@@ -5,7 +5,7 @@ find_package(Phonon REQUIRED)
 
 include_directories(${QT_INCLUDES} ${PHONON_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(rpi-radio_SRCS ClockWidget.cpp PlayerWidget.cpp rpi-radio.cpp main.cpp)
+set(rpi-radio_SRCS ListWidget.cpp ClockWidget.cpp PlayerWidget.cpp rpi-radio.cpp main.cpp)
 qt4_automoc(${rpi-radio_SRCS})
 add_executable(rpi-radio ${rpi-radio_SRCS})
 target_link_libraries(rpi-radio ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${PHONON_LIBRARY})

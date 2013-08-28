@@ -9,6 +9,8 @@
 PlayerWidget::PlayerWidget() {
 	stationList = new QMap<QString, QString>;
 	stationList->insert("SWR3", "http://swr-mp3-m-swr3.akacast.akamaistream.net/7/720/137136/v1/gnl.akacast.akamaistream.net/swr-mp3-m-swr3");
+	stationList->insert("RPR1", "http://217.151.151.90:80/stream1");
+	stationList->insert("BigFM", "http://srv05.bigstreams.de/bigfm-mp3-96.m3u");
 
 	QGridLayout *l = new QGridLayout;
 	setLayout(l);
@@ -43,8 +45,6 @@ PlayerWidget::~PlayerWidget() {
 
 void PlayerWidget::playPressed() {
 	if (playButton->text().startsWith("Play")) {
-		music->setCurrentSource(Phonon::MediaSource(stationList->value("SWR3")));
-		stationLabel->setText("SWR3");
 		music->play();
 	}
 	else {
@@ -53,7 +53,7 @@ void PlayerWidget::playPressed() {
 }
 
 void PlayerWidget::stationPressed() {
-	
+	emit showStationSelectList(stationList->keys());
 }
 
 void PlayerWidget::metaDataChanged() {
@@ -72,4 +72,9 @@ void PlayerWidget::musicStateChanged(Phonon::State neu, Phonon::State) {
 	else if (neu == Phonon::PlayingState) {
 		playButton->setText("Stop");
 	}
+}
+
+void PlayerWidget::stationSelected(QString station) {
+	music->setCurrentSource(Phonon::MediaSource(stationList->value(station)));
+	stationLabel->setText(station);
 }

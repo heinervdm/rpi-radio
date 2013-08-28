@@ -22,11 +22,15 @@ class PlayerWidget : public QWidget {
 	public:
 		PlayerWidget();
 		~PlayerWidget();
+	public slots:
+		void stationSelected(QString station);
 	private slots:
 		void playPressed();
 		void stationPressed();
 		void metaDataChanged();
-		void musicStateChanged(Phonon::State neu,Phonon::State old);
+		void musicStateChanged(Phonon::State neu, Phonon::State old);
+	signals:
+		void showStationSelectList(QStringList stations);
 };
 
 #endif // PLAYERWIDGET_H
