@@ -4,6 +4,8 @@
 #include <QtGui/QWidget>
 #include <QtGui/QGridLayout>
 
+#include <QtSerialPort/QSerialPort>
+
 #include "ClockWidget.h"
 #include "PlayerWidget.h"
 #include "ListWidget.h"
@@ -19,6 +21,9 @@ class rpi_radio : public QWidget {
 		ListWidget *list;
 		QGridLayout *layout;
 		bool prevRadio;
+		QSerialPort *serial;
+	private slots:
+		void readData();
 	public slots:
 		void changeWidget();
 		void showList(QStringList entries);
