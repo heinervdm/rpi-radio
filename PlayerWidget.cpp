@@ -19,7 +19,7 @@ PlayerWidget::PlayerWidget() {
 	trackLabel = new QLabel;
 	l->addWidget(trackLabel, 1, 0, 1, 2, Qt::AlignHCenter);
 	artistLabel = new QLabel;
-	l->addWidget(artistLabel, 2, 0, 1, 3, Qt::AlignHCenter);
+	l->addWidget(artistLabel, 2, 0, 1, 2, Qt::AlignHCenter);
 	playButton = new QPushButton("Play");
 	connect(playButton, SIGNAL(pressed()), this, SLOT(playPressed()));
 	l->addWidget(playButton, 3, 1);
