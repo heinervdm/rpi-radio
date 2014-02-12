@@ -6,7 +6,7 @@ find_package(Phonon REQUIRED)
 
 include_directories(${QT_INCLUDES} ${PHONON_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${QtSerialPort_INCLUDE_DIRS})
 
-set(rpi-radio_SRCS VolumeWidget.cpp ListWidget.cpp ClockWidget.cpp PlayerWidget.cpp GPIO.cpp rpi-radio.cpp main.cpp)
+set(rpi-radio_SRCS Encoder.cpp VolumeWidget.cpp ListWidget.cpp ClockWidget.cpp PlayerWidget.cpp GPIO.cpp rpi-radio.cpp main.cpp)
 qt4_automoc(${rpi-radio_SRCS})
 QT4_ADD_RESOURCES(rpi-radio_RESOURCES_RCC rpi-radio.qrc)
 add_executable(rpi-radio ${rpi-radio_SRCS} ${rpi-radio_RESOURCES_RCC})
