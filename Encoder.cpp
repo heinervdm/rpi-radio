@@ -43,6 +43,7 @@ void Encoder::read() {
 		last = newstate;                    // store new as next last
 		enc_delta += (diff & 2) - 1;   // bit 1 = direction (+/-)
 	}
+	if ((diff & 2) - 1 != 0) emit newPos(getPos());
 }
 
 int8_t Encoder::getPos() {

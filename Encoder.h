@@ -6,7 +6,7 @@
 #include <QObject>
 
 class Encoder : QObject {
-	Q_OBJECT
+		Q_OBJECT
 	public:
 		Encoder (int pina, int pinb);
 		~Encoder();
@@ -18,6 +18,8 @@ class Encoder : QObject {
 		GPIO *pa, *pb;
 	private slots:
 		void read();
+	signals:
+		void newPos (int8_t pos);
 };
 
 #endif // ENCODER_H
