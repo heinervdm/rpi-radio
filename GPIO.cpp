@@ -22,7 +22,7 @@ void GPIO::setPin (int p) {
 	pin = p;
 	QFile f("/sys/class/gpio/export");
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return;
-	f.write(QString::number(pin), 1);
+	f.write(QString::number(pin).toStdString().c_str(), 1);
 	f.close();
 	exported = true;
 }
@@ -34,7 +34,7 @@ int GPIO::getPin() {
 void GPIO::unsetPin (int p) {
 	QFile f("/sys/class/gpio/unexport");
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return;
-	f.write(QString::number(p), 1);
+	f.write(QString::number(p).toStdString().c_str(), 1);
 	f.close();
 	dir = none;
 	exported = false;
@@ -47,7 +47,7 @@ GPIO::~GPIO() {
 GPIO::level GPIO::read() {
 	if (!exported) return unkown;
 	QFile f(QString("/sys/class/gpio/gpio%1/value").arg(pin));
-	if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+	if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return unkown;
 	char res;
 	f.read(&res,1);
 	f.close();
@@ -70,16 +70,16 @@ void GPIO::setDirection (GPIO::direction d) {
 	if (!exported) return;
 	QFile f(QString("/sys/class/gpio/gpio%d/direction").arg(pin));
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return;
-	char c[3];
-	if (l==in) {
-		c="in\0";
+	QString c;
+	if (d==in) {
+		c="in";
 		dir = in;
 	}
 	else {
 		c="out";
 		dir=out;
 	}
-	f.write(c, 3);
+	f.write(c.toStdString().c_str(), c.length());
 	f.close();
 }
 

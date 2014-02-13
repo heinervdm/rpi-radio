@@ -13,8 +13,8 @@ class Encoder : QObject {
 		int8_t getPos();
 	protected:
 		void init (int pina, int pinb);
-		volatile int8_t enc_delta;
-		static int8_t last;
+		int8_t enc_delta;
+		int8_t last;
 		GPIO *pa, *pb;
 	private slots:
 		void read();

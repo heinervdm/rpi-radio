@@ -1,4 +1,5 @@
 #include "Encoder.h"
+#include "Encoder.moc"
 
 #include <QtCore/QTimer>
 
