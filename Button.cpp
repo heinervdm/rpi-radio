@@ -1,4 +1,5 @@
 #include "Button.h"
+#include "Button.moc"
 #include <QtCore/QTimer>
 
 Button::Button() {

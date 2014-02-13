@@ -23,7 +23,7 @@ class GPIO {
 		void setInput();
 		void setOutput();
 		void setPin (int pin);
-		void unsetPin(int pin);
+		void unsetPin();
 		int getPin();
 		GPIO::direction getDirection();
 	protected:

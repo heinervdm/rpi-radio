@@ -5,6 +5,7 @@
 #include "GPIO.h"
 
 class Button : public QObject {
+		Q_OBJECT
 	public:
 		Button();
 		Button (int pin, GPIO::level active = GPIO::low);

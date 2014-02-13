@@ -17,7 +17,7 @@ GPIO::GPIO (int p, GPIO::direction d) {
 }
 
 void GPIO::setPin (int p) {
-	if (exported) unsetPin(pin);
+	if (exported) unsetPin();
 	exported = false;
 	pin = p;
 	QFile f("/sys/class/gpio/export");
@@ -31,17 +31,17 @@ int GPIO::getPin() {
 	return pin;
 }
 
-void GPIO::unsetPin (int p) {
+void GPIO::unsetPin () {
 	QFile f("/sys/class/gpio/unexport");
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return;
-	f.write(QString::number(p).toStdString().c_str(), 1);
+	f.write(QString::number(pin).toStdString().c_str(), 1);
 	f.close();
 	dir = none;
 	exported = false;
 }
 
 GPIO::~GPIO() {
-	unsetPin(pin);
+	unsetPin();
 }
 
 GPIO::level GPIO::read() {
