@@ -16,30 +16,12 @@ rpi_radio::rpi_radio() {
 	connect(list, SIGNAL(selected(QString)), this, SLOT(listItemSelected(QString)));
 
 	layout->addWidget(clock, 0, 0);
-
-	serial = new QSerialPort(this);
-	serial->setPortName("/dev/ttyS0");
-	serial->open(QIODevice::ReadWrite);
-	serial->setBaudRate(QSerialPort::Baud9600);
-	serial->setDataBits(QSerialPort::Data7);
-	serial->setParity(QSerialPort::NoParity);
-	serial->setStopBits(QSerialPort::OneStop);
-	serial->setFlowControl(QSerialPort::NoFlowControl);
-	connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 rpi_radio::~rpi_radio() {
 	player->deleteLater();
 	clock->deleteLater();
-	if (serial) {
-		serial->close();
-		delete serial;
-	}
 	delete layout;
-}
-
-void rpi_radio::readData() {
-	QByteArray data = serial->readAll();
 }
 
 void rpi_radio::changeWidget() {

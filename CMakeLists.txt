@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 find_package(Qt4 REQUIRED QtCore QtGui QtDeclarative)
-find_package(QtSerialPort REQUIRED)
 find_package(Phonon REQUIRED)
 
 include_directories(${QT_INCLUDES} ${PHONON_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${QtSerialPort_INCLUDE_DIRS})
