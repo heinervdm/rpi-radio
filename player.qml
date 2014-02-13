@@ -6,8 +6,9 @@ Rectangle {
 	height: 128
 	color: "black"
 	property bool fav: false
-	signal setFavorite(bool f)
-	onSetFavorite: fav=f
+	signal favoriteClicked()
+	signal playClicked()
+	signal stationsClicked()
 
 	Rectangle {
 		id: stations
@@ -23,11 +24,10 @@ Rectangle {
 			color: "white"
 			text: "Stations"
 		}
-		signal stationsClick()
 		MouseArea{
 			id: stationsMouseArea
 			anchors.fill: parent
-			onClicked: stationsClick()
+			onClicked: parent.stationsClicked()
 		}
 		color: stationsMouseArea.pressed ? "grey" : parent.color
 	}
@@ -46,11 +46,10 @@ Rectangle {
 			color: "white"
 			text: "Play"
 		}
-		signal playClick()
 		MouseArea{
 			id: playMouseArea
 			anchors.fill: parent
-			onClicked: playClick()
+			onClicked: parent.playClicked()
 		}
 		color: playMouseArea.pressed ? "grey" : parent.color
 	}
@@ -67,5 +66,13 @@ Rectangle {
 		color: fav ? "yellow" : "transparent"
 		anchors.right: main.right
 		anchors.top: main.top
+		MouseArea{
+			id: favoriteMouseArea
+			anchors.fill: parent
+			onClicked: {
+				fav = !fav
+				parent.favoriteClicked()
+			}
+		}
 	}
 }

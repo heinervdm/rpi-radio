@@ -1,5 +1,7 @@
 project(rpi-radio)
 cmake_minimum_required(VERSION 2.6)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 find_package(Qt4 REQUIRED QtCore QtGui QtDeclarative)
 find_package(QtSerialPort REQUIRED)
 find_package(Phonon REQUIRED)
