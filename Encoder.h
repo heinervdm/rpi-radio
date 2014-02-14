@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <QObject>
 
-class Encoder : QObject {
+class Encoder : public QObject {
 		Q_OBJECT
 	public:
 		Encoder (int pina, int pinb);
