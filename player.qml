@@ -12,12 +12,14 @@ Rectangle {
 
 	Rectangle {
 		id: stations
-		width: parent.width/2
-		height: parent.height/4
+		width: parent.width/2-1
+		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
 		anchors.bottom: main.bottom
 		anchors.left: main.left
+		anchors.leftMargin: border.width
+		anchors.bottomMargin: border.width
 		Text {
 			font.pixelSize: parent.height * 0.55
 			anchors.centerIn: parent
@@ -34,12 +36,14 @@ Rectangle {
 	
 	Rectangle {
 		id: play
-		width: parent.width/2
-		height: parent.height/4
+		width: parent.width/2-1
+		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
 		anchors.right: main.right
 		anchors.bottom: main.bottom
+		anchors.leftMargin: border.width
+		anchors.bottomMargin: border.width
 		Text {
 			font.pixelSize: parent.height * 0.55
 			anchors.centerIn: parent
@@ -58,8 +62,8 @@ Rectangle {
 		id: star
 		anchors.rightMargin:5
 		anchors.topMargin: 5
-		width: 20
-		height: 20
+		width: 15
+		height: 15
 		radius: width*0.5
 		border.width: 1
 		border.color: "yellow"
