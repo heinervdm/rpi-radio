@@ -7,6 +7,7 @@
 #include "ClockWidget.h"
 #include "PlayerWidget.h"
 #include "ListWidget.h"
+#include "Controls.h"
 
 class rpi_radio : public QWidget {
 		Q_OBJECT
@@ -14,6 +15,7 @@ class rpi_radio : public QWidget {
 		rpi_radio();
 		virtual ~rpi_radio();
 	private:
+		Controls *c;
 		ClockWidget *clock;
 		PlayerWidget *player;
 		ListWidget *list;

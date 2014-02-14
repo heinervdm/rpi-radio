@@ -1,7 +1,9 @@
 #include "rpi-radio.h"
 #include "rpi-radio.moc"
+#include "Controls.h"
 
 rpi_radio::rpi_radio() {
+	c = new Controls;
 	setFixedSize(160, 128);
 	layout = new QGridLayout;
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -16,12 +18,14 @@ rpi_radio::rpi_radio() {
 	connect(list, SIGNAL(selected(QString)), this, SLOT(listItemSelected(QString)));
 
 	layout->addWidget(clock, 0, 0);
+	installEventFilter(c);
 }
 
 rpi_radio::~rpi_radio() {
 	player->deleteLater();
 	clock->deleteLater();
-	delete layout;
+	if (layout) delete layout;
+	if (c) delete c;
 }
 
 void rpi_radio::changeWidget() {
