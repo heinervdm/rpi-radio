@@ -1,6 +1,8 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
 
+#include <stdint.h>
+
 #include <QtCore/QObject>
 #include <QtCore/QEvent>
 
@@ -15,17 +17,18 @@ class Controls : public QObject {
 	protected:
 		bool eventFilter (QObject *obj, QEvent *event);
 	private slots:
-		void leftEncoderChangedSlot (int8_t pos);
-		void rightEncoderChangedSlot (int8_t pos);
+		void leftEncoderChangedSlot (uint8_t pos);
+		void rightEncoderChangedSlot (uint8_t pos);
 		void leftButtonPressedSlot();
 		void rightButtonPressedSlot();
 	private:
 		Button *leftButton, *rightButton;
 		Encoder *leftEncoder, *rightEncoder;
-		int8_t leftPos, rightPos;
+		uint8_t leftPos;
+		uint8_t rightPos;
 	signals:
-		void leftEncoderChanged (int pos);
-		void rightEncoderChanged (int pos);
+		void leftEncoderChanged (uint8_t pos);
+		void rightEncoderChanged (uint8_t pos);
 		void leftButtonPressed();
 		void rightButtonPressed();
 };

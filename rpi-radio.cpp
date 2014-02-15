@@ -17,6 +17,8 @@ rpi_radio::rpi_radio() {
 	list = new ListWidget;
 	connect(list, SIGNAL(selected(QString)), this, SLOT(listItemSelected(QString)));
 
+	connect(c, SIGNAL(leftEncoderChanged(int)), player, SLOT(volumeChanged(uint8_t)));
+	
 	layout->addWidget(clock, 0, 0);
 	installEventFilter(c);
 }
