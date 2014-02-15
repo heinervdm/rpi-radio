@@ -68,5 +68,6 @@ void PlayerWidget::stationSelected(QString station) {
 }
 
 void PlayerWidget::volumeChanged(int volume) {
+	qDebug() << "Changed volume";
 	audioOutput->setVolume(1.0 * volume / 1000.0);
 }

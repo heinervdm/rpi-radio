@@ -7,6 +7,8 @@ Rectangle {
 	color: "black"
 	property bool fav: false
 	property bool playing: false
+	property bool playSelected: false
+	property bool stationsSelected: false
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
@@ -72,7 +74,7 @@ Rectangle {
 			anchors.fill: parent
 			onClicked: main.stationsClicked()
 		}
-		color: stationsMouseArea.pressed ? "grey" : parent.color
+		color: stationsMouseArea.pressed || parent.stationsSelected ? "grey" : parent.color
 	}
 	
 	Rectangle {
@@ -96,7 +98,7 @@ Rectangle {
 			anchors.fill: parent
 			onClicked: main.playClicked()
 		}
-		color: playMouseArea.pressed ? "grey" : parent.color
+		color: playMouseArea.pressed || parent.playSelected ? "grey" : parent.color
 	}
 
 	Rectangle {
