@@ -3,7 +3,7 @@
 
 #include "GPIO.h"
 #include <stdint.h>
-#include <QObject>
+#include <QtCore/QObject>
 
 class Encoder : public QObject {
 		Q_OBJECT

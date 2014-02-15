@@ -1,6 +1,8 @@
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
 
+#include <stdint.h>
+
 #include <QtGui/QWidget>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
