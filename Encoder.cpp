@@ -3,7 +3,7 @@
 
 #include <QtCore/QTimer>
 
-Encoder::Encoder (int pina, int pinb) : QObject() {
+Encoder::Encoder (int pina, int pinb, int pos) : QObject() {
 	init (pina, pinb);
 }
 
@@ -12,11 +12,11 @@ Encoder::~Encoder() {
 	delete pb;
 }
 
-void Encoder::init (int pina, int pinb) {
+void Encoder::init (int pina, int pinb, int pos) {
 	pa = new GPIO (pina, GPIO::in);
 	pb = new GPIO (pinb, GPIO::in);
 
-	int8_t newstate;
+	char newstate;
 
 	newstate = 0;
 
@@ -27,15 +27,18 @@ void Encoder::init (int pina, int pinb) {
 		newstate ^= 1;                              // convert gray to binary
 
 	last = newstate;                                // power on state
-	enc_delta = 0;
+	enc_delta = pos;
 
 	QTimer *timer = new QTimer (this);
 	connect (timer, SIGNAL (timeout()), this, SLOT (read()));
 	timer->start (10);
+	QTimer *timer2 = new QTimer (this);
+	connect (timer2, SIGNAL (timeout()), this, SLOT (getPos()));
+	timer2->start (100);
 }
 
 void Encoder::read() {
-	int8_t newstate, diff;
+	char newstate, diff;
 
 	newstate = 0;
 
@@ -51,14 +54,21 @@ void Encoder::read() {
 		last = newstate;                    // store new as next last
 		enc_delta += (diff & 2) - 1;   // bit 1 = direction (+/-)
 	}
-
-	if ( (diff & 2) - 1 != 0) emit newPos (getPos());
 }
 
-int8_t Encoder::getPos() {
-	int8_t val;
+void Encoder::read2() {
+	char val;
 
 	val = enc_delta;
 	enc_delta = val & 1;
-	return val >> 1;
+	currentPos += val >> 1;
+	if ((val >> 1) != 0) emit newPos(currentPos);
+}
+
+void Encoder::setPos(int pos) {
+	currentPos = pos;
+}
+
+int Encoder::getPos() {
+	return currentPos;
 }

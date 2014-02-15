@@ -2,24 +2,27 @@
 #define ENCODER_H
 
 #include "GPIO.h"
-#include <stdint.h>
 #include <QtCore/QObject>
 
 class Encoder : public QObject {
 		Q_OBJECT
 	public:
-		Encoder (int pina, int pinb);
+		Encoder (int pina, int pinb, int pos = 0);
 		~Encoder();
-		int8_t getPos();
+	public slots:
+		int getPos();
+		void setPos(int pos);
 	protected:
-		void init (int pina, int pinb);
-		int8_t enc_delta;
-		int8_t last;
+		void init (int pina, int pinb, int pos = 0);
+		char enc_delta;
+		char last;
 		GPIO *pa, *pb;
+		int currentPos;
 	private slots:
 		void read();
+		void read2();
 	signals:
-		void newPos (int8_t pos);
+		void newPos (int pos);
 };
 
 #endif // ENCODER_H

@@ -67,6 +67,6 @@ void PlayerWidget::stationSelected(QString station) {
 	rootObject()->setProperty("subtitle",QVariant(""));
 }
 
-void PlayerWidget::volumeChanged(uint8_t volume) {
-	audioOutput->setVolume(1.0 * volume / 256.0);
+void PlayerWidget::volumeChanged(int volume) {
+	audioOutput->setVolume(1.0 * volume / 1000.0);
 }

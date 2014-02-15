@@ -3,28 +3,36 @@
 
 #include <QKeyEvent>
 
-Controls::Controls() {
-	leftPos = 0;
-	rightPos = 100;
+Controls::Controls(int leftenc, int rightenc) {
+	leftPos = leftenc;
+	rightPos = rightenc;
 	leftButton = new Button (1);
 	rightButton = new Button (2);
-	leftEncoder = new Encoder (3, 4);
-	rightEncoder = new Encoder (5, 6);
+	leftEncoder = new Encoder (3, 4, leftPos);
+	rightEncoder = new Encoder (5, 6, rightPos);
 	connect (leftButton, SIGNAL (pressed()), this, SLOT (leftButtonPressedSlot()));
 	connect (rightButton, SIGNAL (pressed()), this, SLOT (rightButtonPressedSlot()));
-	connect (leftEncoder, SIGNAL (newPos (uint8_t)), this, SLOT (leftEncoderChangedSlot (uint8_t)));
-	connect (rightEncoder, SIGNAL (newPos (uint8_t)), this, SLOT (rightEncoderChangedSlot (uint8_t)));
+	connect (leftEncoder, SIGNAL (newPos (int)), this, SLOT (leftEncoderChangedSlot (int)));
+	connect (rightEncoder, SIGNAL (newPos (int)), this, SLOT (rightEncoderChangedSlot (int)));
 }
 
 Controls::~Controls() {
 
 }
 
+void Controls::setLeftEncoderPositon(int pos) {
+	leftPos = pos;
+}
+
+void Controls::setRightEncoderPosition(int pos) {
+	rightPos = pos;
+}
+
 void Controls::leftButtonPressedSlot() {
 	emit leftButtonPressed();
 }
 
-void Controls::leftEncoderChangedSlot (uint8_t pos) {
+void Controls::leftEncoderChangedSlot (int pos) {
 	leftPos = pos;
 	emit leftEncoderChanged (pos);
 }
@@ -33,9 +41,11 @@ void Controls::rightButtonPressedSlot() {
 	emit rightButtonPressed();
 }
 
-void Controls::rightEncoderChangedSlot (uint8_t pos) {
+void Controls::rightEncoderChangedSlot (int pos) {
+	if (pos > 1000) rightEncoder->setPos(1000);
+	if (pos < 0) rightEncoder->setPos(0);
+	if (rightPos != pos) emit rightEncoderChanged (pos);
 	rightPos = pos;
-	emit rightEncoderChanged (pos);
 }
 
 bool Controls::eventFilter (QObject *obj, QEvent *event) {
@@ -50,15 +60,15 @@ bool Controls::eventFilter (QObject *obj, QEvent *event) {
 				emit leftButtonPressed();
 				break;
 			case  Qt::Key_Up:
-				if (leftPos < 255) leftPos++;
+				leftPos++;
 				emit leftEncoderChanged(leftPos);
 				break;
 			case  Qt::Key_Down:
-				if (leftPos > 0) leftPos--;
+				leftPos--;
 				emit leftEncoderChanged(leftPos);
 				break;
 			case Qt::Key_Plus:
-				if (rightPos < 255) rightPos++;
+				if (rightPos < 1000) rightPos++;
 				emit rightEncoderChanged(rightPos);
 				break;
 			case Qt::Key_Minus:

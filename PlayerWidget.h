@@ -1,8 +1,6 @@
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
 
-#include <stdint.h>
-
 #include <QtGui/QWidget>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
@@ -25,7 +23,7 @@ class PlayerWidget  : public QDeclarativeView {
 		~PlayerWidget();
 	public slots:
 		void stationSelected(QString station);
-		void volumeChanged(uint8_t volume);
+		void volumeChanged(int volume);
 	private slots:
 		void playPressed();
 		void stationPressed();
