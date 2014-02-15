@@ -2,9 +2,9 @@
 #include "PlayerWidget.moc"
 
 #include <QtGui/QGridLayout>
+#include <QtGui/QGraphicsItem>
 
 #include <phonon/MediaSource>
-#include <phonon/AudioOutput>
 
 PlayerWidget::PlayerWidget() {
 	stationList = new QMap<QString, QString>;
@@ -12,39 +12,25 @@ PlayerWidget::PlayerWidget() {
 	stationList->insert("RPR1", "http://217.151.151.90:80/stream1");
 	stationList->insert("BigFM", "http://srv05.bigstreams.de/bigfm-mp3-96.m3u");
 
-	QGridLayout *l = new QGridLayout;
-	setLayout(l);
-	stationLabel = new QLabel;
-	l->addWidget(stationLabel, 0, 0, 1, 2, Qt::AlignHCenter);
-	trackLabel = new QLabel;
-	l->addWidget(trackLabel, 1, 0, 1, 2, Qt::AlignHCenter);
-	artistLabel = new QLabel;
-	l->addWidget(artistLabel, 2, 0, 1, 2, Qt::AlignHCenter);
-	playButton = new QPushButton("Play");
-	connect(playButton, SIGNAL(pressed()), this, SLOT(playPressed()));
-	l->addWidget(playButton, 3, 1);
-	changeStationButton = new QPushButton("Stations");
-	connect(changeStationButton, SIGNAL(pressed()), this, SLOT(stationPressed()));
-	l->addWidget(changeStationButton, 3, 0);
+	setSource(QUrl("qrc:/player.qml"));
+
+	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
+	connect(rootObject(), SIGNAL(stationsClicked()), this, SLOT(stationPressed()));
 
 	music = new Phonon::MediaObject(this);
-	Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+	audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	Phonon::Path path = Phonon::createPath(music, audioOutput);
 	connect(music, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
 	connect(music, SIGNAL(stateChanged(Phonon::State,Phonon::State)), this, SLOT(musicStateChanged(Phonon::State,Phonon::State)));
 }
 
 PlayerWidget::~PlayerWidget() {
-	stationLabel->deleteLater();
-	trackLabel->deleteLater();
-	artistLabel->deleteLater();
-	playButton->deleteLater();
-	changeStationButton->deleteLater();
 	delete stationList;
 }
 
 void PlayerWidget::playPressed() {
-	if (playButton->text().startsWith("Play")) {
+	qDebug() << "play pressed";
+	if (!rootObject()->property("playing").toBool()) {
 		music->play();
 	}
 	else {
@@ -59,22 +45,28 @@ void PlayerWidget::stationPressed() {
 void PlayerWidget::metaDataChanged() {
 	QStringList artist = music->metaData(Phonon::ArtistMetaData);
 	QStringList title = music->metaData(Phonon::TitleMetaData);
-	if (artist.count() > 0) artistLabel->setText(artist.first());
-	else artistLabel->setText("");
-	if (title.count() > 0) trackLabel->setText(title.first());
-	else trackLabel->setText("");
+	if (artist.count() > 0) rootObject()->setProperty("title",QVariant(artist.first()));
+	else rootObject()->setProperty("title",QVariant(""));
+	if (title.count() > 0) rootObject()->setProperty("subtitle",QVariant(title.first()));
+	else rootObject()->setProperty("subtitle",QVariant(""));
 }
 
 void PlayerWidget::musicStateChanged(Phonon::State neu, Phonon::State) {
 	if (neu == Phonon::StoppedState) {
-		playButton->setText("Play");
+		rootObject()->setProperty("playing",QVariant(false));
 	}
 	else if (neu == Phonon::PlayingState) {
-		playButton->setText("Stop");
+		rootObject()->setProperty("playing",QVariant(true));
 	}
 }
 
 void PlayerWidget::stationSelected(QString station) {
 	music->setCurrentSource(Phonon::MediaSource(stationList->value(station)));
-	stationLabel->setText(station);
+	rootObject()->setProperty("name",QVariant(station));
+	rootObject()->setProperty("title",QVariant(""));
+	rootObject()->setProperty("subtitle",QVariant(""));
+}
+
+void PlayerWidget::volumeChanged(uint8_t volume) {
+	audioOutput->setVolume(1.0 * volume / 256.0);
 }

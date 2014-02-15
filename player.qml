@@ -6,9 +6,50 @@ Rectangle {
 	height: 128
 	color: "black"
 	property bool fav: false
+	property bool playing: false
+	property string name: ""
+	property string title: ""
+	property string subtitle: ""
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
+
+	Text {
+		id: stationname
+		font.pixelSize: parent.height * 0.2
+		width: parent.width
+		height: (parent.height - stations.height) / 3.0
+		verticalAlignment: Text.AlignVCenter
+		horizontalAlignment: Text.AlignHCenter
+		anchors.top: parent.top
+		anchors.left: parent.left
+		color: "white"
+		text: parent.name
+	}
+	Text {
+		id: stationtitle
+		font.pixelSize: parent.height * 0.1
+		width: parent.width
+		height: (parent.height - stations.height) / 3.0
+		verticalAlignment: Text.AlignVCenter
+		horizontalAlignment: Text.AlignHCenter
+		anchors.top: stationname.bottom
+		anchors.left: parent.left
+		color: "white"
+		text: parent.title
+	}
+	Text {
+		id: stationsubtitle
+		font.pixelSize: parent.height * 0.1
+		width: parent.width
+		height: (parent.height - stations.height) / 3.0
+		verticalAlignment: Text.AlignVCenter
+		horizontalAlignment: Text.AlignHCenter
+		anchors.top: stationtitle.bottom
+		anchors.left: parent.left
+		color: "white"
+		text: parent.subtitle
+	}
 
 	Rectangle {
 		id: stations
@@ -29,7 +70,7 @@ Rectangle {
 		MouseArea{
 			id: stationsMouseArea
 			anchors.fill: parent
-			onClicked: parent.stationsClicked()
+			onClicked: main.stationsClicked()
 		}
 		color: stationsMouseArea.pressed ? "grey" : parent.color
 	}
@@ -48,12 +89,12 @@ Rectangle {
 			font.pixelSize: parent.height * 0.55
 			anchors.centerIn: parent
 			color: "white"
-			text: "Play"
+			text: (main.playing) ? "Stop" : "Play"
 		}
 		MouseArea{
 			id: playMouseArea
 			anchors.fill: parent
-			onClicked: parent.playClicked()
+			onClicked: main.playClicked()
 		}
 		color: playMouseArea.pressed ? "grey" : parent.color
 	}
@@ -75,7 +116,7 @@ Rectangle {
 			anchors.fill: parent
 			onClicked: {
 				fav = !fav
-				parent.favoriteClicked()
+				main.favoriteClicked()
 			}
 		}
 	}

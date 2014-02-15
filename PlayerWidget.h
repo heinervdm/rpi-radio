@@ -7,23 +7,23 @@
 
 #include <QtCore/QMap>
 
-#include <phonon/MediaObject>
+#include <QtDeclarative/QDeclarativeView>
 
-class PlayerWidget : public QWidget {
+#include <phonon/MediaObject>
+#include <phonon/AudioOutput>
+
+class PlayerWidget  : public QDeclarativeView {
 		Q_OBJECT
 	private:
 		QMap<QString, QString> *stationList;
-		QLabel *artistLabel;
-		QLabel *trackLabel;
-		QLabel *stationLabel;
-		QPushButton *playButton;
-		QPushButton *changeStationButton;
 		Phonon::MediaObject *music;
+		Phonon::AudioOutput *audioOutput;
 	public:
 		PlayerWidget();
 		~PlayerWidget();
 	public slots:
 		void stationSelected(QString station);
+		void volumeChanged(uint8_t volume);
 	private slots:
 		void playPressed();
 		void stationPressed();

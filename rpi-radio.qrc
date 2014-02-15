@@ -3,6 +3,7 @@
 
 <qresource prefix="/">
 	<file>volume.qml</file>
+	<file>player.qml</file>
 </qresource>
 
 </RCC>
