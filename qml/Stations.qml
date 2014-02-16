@@ -60,6 +60,7 @@ ListModel {
 		stream: "http://gffstream.ic.llnwd.net/stream/gffstream_w14a"
 		playlist: "http://streams.br-online.de/b5aktuell_2.m3u"
 	}
+
 	ListElement {
 		name: "Bayern 1"
 		stream: "http://gffstream.ic.llnwd.net/stream/gffstream_w10b"

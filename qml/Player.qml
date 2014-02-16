@@ -12,21 +12,21 @@ Rectangle {
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
+	property int volume: 800
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
-	signal volumeChanged(int v)
 	signal stationChanged(string name, string stream, string playlist)
 	onStationChanged: {
 		console.log("Station selected: " +name)
 	}
 	onVolumeChanged: {
-		 volume.setVolume(v)
-		 console.log("Volume changed to: "+ v)
+		 volumeWidget.setVolume(volume)
+		 console.log("Volume changed to: "+ volume)
 	}
 
 	Volume {
-		id: volume
+		id: volumeWidget
 	}
 
 	Clock {

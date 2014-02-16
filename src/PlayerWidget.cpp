@@ -8,7 +8,7 @@ PlayerWidget::PlayerWidget() {
 	setSource(QUrl("qrc:/qml/Player.qml"));
 
 	c = new Controls;
-	connect(c, SIGNAL(leftEncoderChanged(int)), this, SLOT(volumeChanged(int)));
+	connect(c, SIGNAL(rightEncoderChanged(int)), this, SLOT(volumeChanged(int)));
 
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
 	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString,QString,QString)));
@@ -24,6 +24,8 @@ PlayerWidget::PlayerWidget() {
 
 PlayerWidget::~PlayerWidget() {
 	if (c) delete c;
+	music->deleteLater();
+	audioOutput->deleteLater();
 }
 
 void PlayerWidget::playPressed() {
@@ -55,8 +57,8 @@ void PlayerWidget::musicStateChanged(Phonon::State neu, Phonon::State) {
 }
 
 void PlayerWidget::stationSelected(QString station, QString stream, QString playlist) {
-	if (playlist.length() > 0) music->setCurrentSource(Phonon::MediaSource(playlist));
-	else if (stream.length() > 0) music->setCurrentSource(Phonon::MediaSource(stream));
+	if (playlist.length() > 0) music->setCurrentSource(Phonon::MediaSource(QUrl(playlist)));
+	else if (stream.length() > 0) music->setCurrentSource(Phonon::MediaSource(QUrl(stream)));
 	else {
 		qDebug("Can not play station: No URL given!");
 		return;
@@ -67,6 +69,9 @@ void PlayerWidget::stationSelected(QString station, QString stream, QString play
 }
 
 void PlayerWidget::volumeChanged(int volume) {
-	qDebug("Changed volume");
-	audioOutput->setVolume(1.0 * volume / 1000.0);
+	if (volume > 0) {
+		qDebug() << "Changed volume: " + QString::number(volume);
+		rootObject()->setProperty("volume", QVariant(volume));
+		audioOutput->setVolume(1.0 * volume / 1000.0);
+	}
 }

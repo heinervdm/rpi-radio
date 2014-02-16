@@ -6,12 +6,12 @@ Rectangle {
 	anchors.fill: parent
 	opacity: 0.5
 	color: "grey"
-	property int volume: 800
+	property int volume: 80
 	property bool visibility: false
 	visible: visibility
 	signal setVolume(int v)
 	onSetVolume: {
-		visiblility = true
+		background.visibility = true
 		volume = v
 		offtimer.restart()
 	}
@@ -66,7 +66,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 25
-			color: {if (background.volume > 200) "green"; else "white"}
+			color: {if (background.volume > 20) "green"; else "white"}
 			anchors.left: rect1.right
 			anchors.bottom: main.bottom
 		}
@@ -77,7 +77,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 40
-			color: {if (background.volume > 400) "green"; else "white"}
+			color: {if (background.volume > 40) "green"; else "white"}
 			anchors.left: rect2.right
 			anchors.bottom: main.bottom
 		}
@@ -88,7 +88,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 55
-			color: {if (background.volume > 600) "green"; else "white"}
+			color: {if (background.volume > 60) "green"; else "white"}
 			anchors.left: rect3.right
 			anchors.bottom: main.bottom
 		}
@@ -99,7 +99,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 70
-			color: {if (background.volume > 800) "green"; else "white"}
+			color: {if (background.volume > 80) "green"; else "white"}
 			anchors.left: rect4.right
 			anchors.bottom: main.bottom
 		}

@@ -41,7 +41,7 @@ void Controls::rightButtonPressedSlot() {
 }
 
 void Controls::rightEncoderChangedSlot (int pos) {
-	if (pos > 1000) rightEncoder->setPos(1000);
+	if (pos > 100) rightEncoder->setPos(100);
 	if (pos < 0) rightEncoder->setPos(0);
 	if (rightPos != pos) emit rightEncoderChanged (pos);
 	rightPos = pos;
@@ -71,7 +71,7 @@ bool Controls::eventFilter (QObject *obj, QEvent *event) {
 				break;
 			case Qt::Key_Plus:
 				qDebug ("Ate key %d", keyEvent->key());
-				if (rightPos < 1000) rightPos++;
+				if (rightPos < 100) rightPos++;
 				emit rightEncoderChanged(rightPos);
 				break;
 			case Qt::Key_Minus:
