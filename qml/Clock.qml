@@ -2,10 +2,11 @@ import QtQuick 1.0
 
 Rectangle {
 	id: main
-	width: 160
-	height: 128
+	anchors.fill: parent
 	color: "black"
-	signal clicked()
+	property bool visibility: true
+	visible: visibility
+
 	Timer {
 		property bool dots: true
 		interval: 1000; running: true; repeat: true
@@ -45,6 +46,6 @@ Rectangle {
 	MouseArea{
 		id: clockMouseArea
 		anchors.fill: parent
-		onClicked: main.clicked()
+		onClicked: visibility = false
 	}
 }

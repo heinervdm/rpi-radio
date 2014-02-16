@@ -2,10 +2,35 @@ import QtQuick 1.0
 
 Rectangle {
 	id: background
-	width: 160
-	height: 128
+	anchors.fill: parent
 	color: "transparent"
+	property int volume: 800
+	signal setVolume(int v)
+	onSetVolume: {
+		visible: true
+		volume = v
+		offtimer.restart()
+	}
+	
+	PropertyAnimation {
+		target: background
+		property: "opacity"
+		duration: 400
+		from: 0; to: 1
+		easing.type: Easing.InOutQuad
+		running: true
+	}
 
+	Timer {
+		id: offtimer
+		interval: 5000
+		running: false
+		repeat: false
+		onTriggered: {
+			background.visible: false
+		}
+	}
+	
 	Rectangle {
 		id: main
 		width: 100
@@ -18,9 +43,6 @@ Rectangle {
 		anchors.bottom: background.bottom
 		anchors.leftMargin: 30
 		anchors.bottomMargin: 14
-		property int volume: 100
-		signal setVolume(int v)
-		onSetVolume: volume = v
 
 		Rectangle {
 			id: rect1
@@ -28,7 +50,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 10
-			color: {if (parent.volume > 0) "green"; else "white"}
+			color: {if (background.volume > 0) "green"; else "white"}
 			anchors.bottom: main.bottom
 			anchors.left: main.left
 		}
@@ -39,7 +61,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 25
-			color: {if (parent.volume > 20) "green"; else "white"}
+			color: {if (background.volume > 200) "green"; else "white"}
 			anchors.left: rect1.right
 			anchors.bottom: main.bottom
 		}
@@ -50,7 +72,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 40
-			color: {if (parent.volume > 40) "green"; else "white"}
+			color: {if (background.volume > 400) "green"; else "white"}
 			anchors.left: rect2.right
 			anchors.bottom: main.bottom
 		}
@@ -61,7 +83,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 55
-			color: {if (parent.volume > 60) "green"; else "white"}
+			color: {if (background.volume > 600) "green"; else "white"}
 			anchors.left: rect3.right
 			anchors.bottom: main.bottom
 		}
@@ -72,7 +94,7 @@ Rectangle {
 			anchors.bottomMargin: 15
 			width: 10
 			height: 70
-			color: {if (parent.volume > 80) "green"; else "white"}
+			color: {if (background.volume > 800) "green"; else "white"}
 			anchors.left: rect4.right
 			anchors.bottom: main.bottom
 		}
