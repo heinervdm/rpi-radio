@@ -1,5 +1,4 @@
 #include "PlayerWidget.h"
-#include "PlayerWidget.moc"
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QGraphicsItem>

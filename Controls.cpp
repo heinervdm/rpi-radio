@@ -1,5 +1,4 @@
 #include "Controls.h"
-#include "Controls.moc"
 
 #include <QKeyEvent>
 

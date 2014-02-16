@@ -1,5 +1,4 @@
 #include "ClockWidget.h"
-#include "ClockWidget.moc"
 
 #include <QtGui/QGraphicsItem>
 

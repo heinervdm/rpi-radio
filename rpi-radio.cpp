@@ -1,5 +1,4 @@
 #include "rpi-radio.h"
-#include "rpi-radio.moc"
 #include "Controls.h"
 
 rpi_radio::rpi_radio() {

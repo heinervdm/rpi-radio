@@ -1,5 +1,4 @@
 #include "ListWidget.h"
-#include "ListWidget.moc"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>

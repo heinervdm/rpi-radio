@@ -1,5 +1,4 @@
 #include "VolumeWidget.h"
-#include "VolumeWidget.moc"
 
 #include <QtCore/QUrl>
 #include <QtCore/QString>
