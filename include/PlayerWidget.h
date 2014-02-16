@@ -20,6 +20,8 @@ class PlayerWidget  : public QDeclarativeView {
 	public slots:
 		void stationSelected(QString station, QString stream, QString playlist);
 		void volumeChanged(int volume);
+		void selectionChanged(int field);
+		void select();
 	private slots:
 		void playPressed();
 		void metaDataChanged();

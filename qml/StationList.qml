@@ -7,7 +7,6 @@ ListView {
 	anchors.fill: parent
 	visible: visibility
 	signal selected(string name, string stream, string playlist)
-	onSelected: visibility = false
 
 	Component {
 		id: stationsDelegate

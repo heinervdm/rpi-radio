@@ -12,6 +12,9 @@ PlayerWidget::PlayerWidget() {
 	audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	Phonon::Path path = Phonon::createPath(music, audioOutput);
 	connect(c, SIGNAL(rightEncoderChanged(int)), this, SLOT(volumeChanged(int)));
+	connect(c, SIGNAL(leftEncoderChanged(int)), this, SLOT(selectionChanged(int)));
+	connect(c, SIGNAL(leftButtonPressed()), this, SLOT(select()));
+	connect(c, SIGNAL(rightButtonPressed()), this, SLOT(select()));
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
 	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString, QString, QString)));
 	connect(music, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
@@ -86,4 +89,12 @@ void PlayerWidget::volumeChanged(int volume) {
 		rootObject()->setProperty("volume", QVariant(volume));
 		audioOutput->setVolume(1.0 * volume / 100.0);
 	}
+}
+
+void PlayerWidget::selectionChanged(int field) {
+	
+}
+
+void PlayerWidget::select() {
+	
 }

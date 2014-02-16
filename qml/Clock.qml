@@ -10,7 +10,9 @@ Rectangle {
 
 	Timer {
 		property bool dots: true
-		interval: 1000; running: true; repeat: true
+		interval: 1000
+		running: true
+		repeat: true
 		onTriggered: {
 			if (dots) {
 				time.text = Qt.formatDateTime(new Date(), "HH:mm")
@@ -47,6 +49,5 @@ Rectangle {
 	MouseArea{
 		id: clockMouseArea
 		anchors.fill: parent
-		onClicked: visibility = false
 	}
 }

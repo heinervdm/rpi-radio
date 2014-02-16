@@ -5,20 +5,24 @@ Rectangle {
 	width: 160
 	height: 128
 	color: "black"
+	state: "CLOCK"
 	property bool fav: false
 	property bool playing: false
-	property bool playSelected: false
-	property bool stationsSelected: false
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
+	property int selected: 0 // 0=none, 1=stations, 2=play, 3=favorite
 	property int volume: 80
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
 	signal stationChanged(string name, string stream, string playlist)
+	onStationsClicked: {
+		main.state = "STATIONLIST"
+	}
 	onStationChanged: {
 		console.log("Station selected: " +name)
+		main.state = "PLAYER"
 	}
 	onVolumeChanged: {
 		 volumeWidget.setVolume(volume)
@@ -31,11 +35,16 @@ Rectangle {
 
 	Clock {
 		id: clock
+		clockMouseArea.onClicked {
+			main.state = "PLAYER"
+		}
 	}
 
 	StationList {
 		id: stationlist
-		onSelected: main.stationChanged(name, stream, playlist)
+		onSelected: {
+			main.stationChanged(name, stream, playlist)
+		}
 	}
 
 	Text {
@@ -50,6 +59,7 @@ Rectangle {
 		color: "white"
 		text: parent.name
 	}
+
 	Text {
 		id: stationtitle
 		font.pixelSize: parent.height * 0.1
@@ -62,6 +72,7 @@ Rectangle {
 		color: "white"
 		text: parent.title
 	}
+
 	Text {
 		id: stationsubtitle
 		font.pixelSize: parent.height * 0.1
@@ -94,9 +105,9 @@ Rectangle {
 		MouseArea{
 			id: stationsMouseArea
 			anchors.fill: parent
-			onClicked: stationlist.visibility = true
+			onClicked: main.stationsClicked()
 		}
-		color: stationsMouseArea.pressed || parent.stationsSelected ? "grey" : parent.color
+		color: stationsMouseArea.pressed || parent.selected == 1 ? "grey" : parent.color
 	}
 	
 	Rectangle {
@@ -120,21 +131,23 @@ Rectangle {
 			anchors.fill: parent
 			onClicked: main.playClicked()
 		}
-		color: playMouseArea.pressed || parent.playSelected ? "grey" : parent.color
+		color: playMouseArea.pressed || parent.selected == 2 ? "grey" : parent.color
 	}
 
 	Rectangle {
 		id: star
+		z:2
 		anchors.rightMargin:5
 		anchors.topMargin: 5
 		width: 15
 		height: 15
 		radius: width*0.5
 		border.width: 1
-		border.color: "yellow"
+		border.color: parent.selected ==3 ? "red" : "yellow"
 		color: fav ? "yellow" : "transparent"
 		anchors.right: main.right
 		anchors.top: main.top
+		opacity: 0.5
 		MouseArea{
 			id: favoriteMouseArea
 			anchors.fill: parent
@@ -144,4 +157,40 @@ Rectangle {
 			}
 		}
 	}
+
+	states: [
+		State {
+			name: "CLOCK"
+			PropertyChanges {
+				target: clock
+				visibility: true
+			}
+			PropertyChanges {
+				target:	stationlist
+				visibility: false
+			}
+		},
+		State {
+			name: "PLAYER"
+			PropertyChanges {
+				target: clock
+				visibility: false
+			}
+			PropertyChanges {
+				target:	stationlist
+				visibility: false
+			}
+		},
+		State {
+			name: "STATIONLIST"
+			PropertyChanges {
+				target: clock
+				visibility: false
+			}
+			PropertyChanges {
+				target:	stationlist
+				visibility: true
+			}
+		}
+	]
 }
