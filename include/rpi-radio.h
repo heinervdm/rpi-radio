@@ -4,7 +4,6 @@
 #include <QtGui/QWidget>
 #include <QtGui/QGridLayout>
 
-#include "ClockWidget.h"
 #include "PlayerWidget.h"
 #include "ListWidget.h"
 #include "Controls.h"
@@ -16,13 +15,10 @@ class rpi_radio : public QWidget {
 		virtual ~rpi_radio();
 	private:
 		Controls *c;
-		ClockWidget *clock;
 		PlayerWidget *player;
 		ListWidget *list;
 		QGridLayout *layout;
-		bool prevRadio;
 	public slots:
-		void changeWidget();
 		void showList(QStringList entries);
 		void listItemSelected(QString station);
 };

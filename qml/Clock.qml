@@ -2,6 +2,7 @@ import QtQuick 1.0
 
 Rectangle {
 	id: main
+	z: 10
 	anchors.fill: parent
 	color: "black"
 	property bool visibility: true

@@ -2,16 +2,20 @@ import QtQuick 1.0
 
 Rectangle {
 	id: background
+	z: 5
 	anchors.fill: parent
-	color: "transparent"
+	opacity: 0.5
+	color: "grey"
 	property int volume: 800
+	property bool visibility: false
+	visible: visibility
 	signal setVolume(int v)
 	onSetVolume: {
-		visible: true
+		visiblility = true
 		volume = v
 		offtimer.restart()
 	}
-	
+
 	PropertyAnimation {
 		target: background
 		property: "opacity"
@@ -27,14 +31,15 @@ Rectangle {
 		running: false
 		repeat: false
 		onTriggered: {
-			background.visible: false
+			background.visibility = false
 		}
 	}
-	
+
 	Rectangle {
 		id: main
 		width: 100
 		height: 100
+		opacity: 1
 		color: "black"
 		border.color: "white"
 		border.width: 1;
@@ -54,7 +59,7 @@ Rectangle {
 			anchors.bottom: main.bottom
 			anchors.left: main.left
 		}
-		
+
 		Rectangle {
 			id: rect2
 			anchors.leftMargin:5

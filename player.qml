@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "qml"
 
 Rectangle {
 	id: main
@@ -15,6 +16,18 @@ Rectangle {
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
+	signal volumeChanged(int v)
+	onVolumeChanged: {
+		 volume.setVolume(v)
+	}
+
+	Volume {
+		id: volume
+	}
+
+	Clock {
+		id: clock
+	}
 
 	Text {
 		id: stationname

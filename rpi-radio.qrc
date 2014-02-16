@@ -2,9 +2,9 @@
 <RCC version="1.0">
 
 <qresource prefix="/">
-	<file>volume.qml</file>
+	<file>qml/Volume.qml</file>
 	<file>player.qml</file>
-	<file>clock.qml</file>
+	<file>qml/Clock.qml</file>
 </qresource>
 
 </RCC>
