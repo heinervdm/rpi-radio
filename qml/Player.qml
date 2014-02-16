@@ -1,5 +1,4 @@
 import QtQuick 1.0
-import "qml"
 
 Rectangle {
 	id: main

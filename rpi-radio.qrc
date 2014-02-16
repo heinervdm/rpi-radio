@@ -2,7 +2,7 @@
 <RCC version="1.0">
 
 <qresource prefix="/">
-	<file>player.qml</file>
+	<file>qml/Player.qml</file>
 	<file>qml/Volume.qml</file>
 	<file>qml/Clock.qml</file>
 	<file>qml/Stations.qml</file>

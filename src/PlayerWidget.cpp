@@ -5,7 +5,7 @@
 #include <phonon/MediaSource>
 
 PlayerWidget::PlayerWidget() {
-	setSource(QUrl("qrc:/player.qml"));
+	setSource(QUrl("qrc:/qml/Player.qml"));
 
 	c = new Controls;
 	connect(c, SIGNAL(leftEncoderChanged(int)), this, SLOT(volumeChanged(int)));

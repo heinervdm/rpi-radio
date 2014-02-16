@@ -6,7 +6,7 @@ find_package(Qt4 REQUIRED QtCore QtGui QtDeclarative Phonon)
 include_directories(${QT_INCLUDES} ${QT_PHONON_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR} include)
 
 set(rpi-radio_HDRS include/Controls.h include/Button.h include/Encoder.h include/PlayerWidget.h include/GPIO.h)
-set(rpi-radio_SRCS Controls.cpp Button.cpp Encoder.cpp PlayerWidget.cpp GPIO.cpp main.cpp)
+set(rpi-radio_SRCS src/Controls.cpp src/Button.cpp src/Encoder.cpp src/PlayerWidget.cpp src/GPIO.cpp main.cpp)
 qt4_wrap_cpp(rpi-radio_MOC ${rpi-radio_HDRS})
 QT4_ADD_RESOURCES(rpi-radio_RESOURCES_RCC rpi-radio.qrc)
 add_executable(rpi-radio ${rpi-radio_SRCS} ${rpi-radio_RESOURCES_RCC} ${rpi-radio_MOC})

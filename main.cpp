@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 
-#include "rpi-radio.h"
+#include "PlayerWidget.h"
 
 int main(int argc, char** argv) {
 	QApplication app(argc, argv, QApplication::GuiServer);
