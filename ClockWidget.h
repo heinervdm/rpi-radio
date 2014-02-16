@@ -1,26 +1,17 @@
 #ifndef CLOCKWIDGET_H
 #define CLOCKWIDGET_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QLabel>
-#include <QtGui/QMouseEvent>
+#include <QtCore/QObject>
 
-#include <QtCore/QDate>
+#include <QtDeclarative/QDeclarativeView>
 
-class ClockWidget : public QWidget {
+class ClockWidget : public QDeclarativeView {
 		Q_OBJECT
 	public:
-		ClockWidget(QWidget *parent = 0);
+		ClockWidget();
 		~ClockWidget();
-	protected:
-		virtual void mouseReleaseEvent(QMouseEvent * event);
-	private:
-		QLabel *timeLabel;
-		QLabel *dateLabel;
-		bool points;
-		QDate *lastDate;
-	private slots:
-		void updateTime();
+	protected slots:
+		void clockClicked();
 	signals:
 		void clicked();
 };
