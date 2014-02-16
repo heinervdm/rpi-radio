@@ -12,7 +12,7 @@ Rectangle {
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
-	property int volume: 800
+	property int volume: 80
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()

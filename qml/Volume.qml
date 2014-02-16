@@ -27,7 +27,7 @@ Rectangle {
 
 	Timer {
 		id: offtimer
-		interval: 5000
+		interval: 1000
 		running: false
 		repeat: false
 		onTriggered: {
