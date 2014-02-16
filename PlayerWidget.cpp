@@ -7,6 +7,9 @@
 PlayerWidget::PlayerWidget() {
 	setSource(QUrl("qrc:/player.qml"));
 
+	c = new Controls;
+	connect(c, SIGNAL(leftEncoderChanged(int)), this, SLOT(volumeChanged(int)));
+
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
 	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString,QString,QString)));
 
@@ -15,9 +18,12 @@ PlayerWidget::PlayerWidget() {
 	Phonon::Path path = Phonon::createPath(music, audioOutput);
 	connect(music, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
 	connect(music, SIGNAL(stateChanged(Phonon::State,Phonon::State)), this, SLOT(musicStateChanged(Phonon::State,Phonon::State)));
+
+	installEventFilter(c);
 }
 
 PlayerWidget::~PlayerWidget() {
+	if (c) delete c;
 }
 
 void PlayerWidget::playPressed() {

@@ -6,9 +6,12 @@
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
 
+#include "Controls.h"
+
 class PlayerWidget  : public QDeclarativeView {
 		Q_OBJECT
 	private:
+		Controls *c;
 		Phonon::MediaObject *music;
 		Phonon::AudioOutput *audioOutput;
 	public:
