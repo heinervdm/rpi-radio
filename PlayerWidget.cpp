@@ -1,20 +1,14 @@
 #include "PlayerWidget.h"
 
-#include <QtGui/QGridLayout>
 #include <QtGui/QGraphicsItem>
 
 #include <phonon/MediaSource>
 
 PlayerWidget::PlayerWidget() {
-	stationList = new QMap<QString, QString>;
-	stationList->insert("SWR3", "http://swr-mp3-m-swr3.akacast.akamaistream.net/7/720/137136/v1/gnl.akacast.akamaistream.net/swr-mp3-m-swr3");
-	stationList->insert("RPR1", "http://217.151.151.90:80/stream1");
-	stationList->insert("BigFM", "http://srv05.bigstreams.de/bigfm-mp3-96.m3u");
-
 	setSource(QUrl("qrc:/player.qml"));
 
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
-	connect(rootObject(), SIGNAL(stationsClicked()), this, SLOT(stationPressed()));
+	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString,QString,QString)));
 
 	music = new Phonon::MediaObject(this);
 	audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
@@ -24,7 +18,6 @@ PlayerWidget::PlayerWidget() {
 }
 
 PlayerWidget::~PlayerWidget() {
-	delete stationList;
 }
 
 void PlayerWidget::playPressed() {
@@ -35,10 +28,6 @@ void PlayerWidget::playPressed() {
 	else {
 		music->stop();
 	}
-}
-
-void PlayerWidget::stationPressed() {
-	emit showStationSelectList(stationList->keys());
 }
 
 void PlayerWidget::metaDataChanged() {
@@ -59,14 +48,19 @@ void PlayerWidget::musicStateChanged(Phonon::State neu, Phonon::State) {
 	}
 }
 
-void PlayerWidget::stationSelected(QString station) {
-	music->setCurrentSource(Phonon::MediaSource(stationList->value(station)));
+void PlayerWidget::stationSelected(QString station, QString stream, QString playlist) {
+	if (playlist.length() > 0) music->setCurrentSource(Phonon::MediaSource(playlist));
+	else if (stream.length() > 0) music->setCurrentSource(Phonon::MediaSource(stream));
+	else {
+		qDebug("Can not play station: No URL given!");
+		return;
+	}
 	rootObject()->setProperty("name",QVariant(station));
 	rootObject()->setProperty("title",QVariant(""));
 	rootObject()->setProperty("subtitle",QVariant(""));
 }
 
 void PlayerWidget::volumeChanged(int volume) {
-	qDebug() << "Changed volume";
+	qDebug("Changed volume");
 	audioOutput->setVolume(1.0 * volume / 1000.0);
 }

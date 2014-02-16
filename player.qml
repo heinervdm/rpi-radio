@@ -17,8 +17,13 @@ Rectangle {
 	signal playClicked()
 	signal stationsClicked()
 	signal volumeChanged(int v)
+	signal stationChanged(string name, string stream, string playlist)
+	onStationChanged: {
+		console.log("Station selected: " +name)
+	}
 	onVolumeChanged: {
 		 volume.setVolume(v)
+		 console.log("Volume changed to: "+ v)
 	}
 
 	Volume {
@@ -27,6 +32,11 @@ Rectangle {
 
 	Clock {
 		id: clock
+	}
+
+	StationList {
+		id: stationlist
+		onSelected: main.stationChanged(name, stream, playlist)
 	}
 
 	Text {
@@ -85,7 +95,7 @@ Rectangle {
 		MouseArea{
 			id: stationsMouseArea
 			anchors.fill: parent
-			onClicked: main.stationsClicked()
+			onClicked: stationlist.visibility = true
 		}
 		color: stationsMouseArea.pressed || parent.stationsSelected ? "grey" : parent.color
 	}
