@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
 Rectangle {
 	id: main
@@ -69,6 +69,7 @@ Rectangle {
 	Text {
 		id: stationname
 		font.pixelSize: parent.height * 0.2
+		scale: paintedWidth > width ? (width / paintedWidth) : 1
 		width: parent.width
 		height: (parent.height - stations.height) / 3.0
 		verticalAlignment: Text.AlignVCenter
@@ -82,6 +83,7 @@ Rectangle {
 	Text {
 		id: stationtitle
 		font.pixelSize: parent.height * 0.1
+		scale: paintedWidth > width ? (width / paintedWidth) : 1
 		width: parent.width
 		height: (parent.height - stations.height) / 3.0
 		verticalAlignment: Text.AlignVCenter
@@ -95,6 +97,7 @@ Rectangle {
 	Text {
 		id: stationsubtitle
 		font.pixelSize: parent.height * 0.1
+		scale: paintedWidth > width ? (width / paintedWidth) : 1
 		width: parent.width
 		height: (parent.height - stations.height) / 3.0
 		verticalAlignment: Text.AlignVCenter
