@@ -7,6 +7,7 @@ Rectangle {
 	color: "black"
 	property bool visibility: true
 	visible: visibility
+	signal clockClicked()
 
 	Timer {
 		property bool dots: true
@@ -49,5 +50,6 @@ Rectangle {
 	MouseArea{
 		id: clockMouseArea
 		anchors.fill: parent
+		onClicked: parent.clockClicked()
 	}
 }

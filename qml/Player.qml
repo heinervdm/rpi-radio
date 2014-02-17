@@ -35,7 +35,7 @@ Rectangle {
 
 	Clock {
 		id: clock
-		clockMouseArea.onClicked {
+		onClockClicked: {
 			main.state = "PLAYER"
 		}
 	}
