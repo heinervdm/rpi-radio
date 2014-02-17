@@ -92,7 +92,24 @@ void PlayerWidget::volumeChanged(int volume) {
 }
 
 void PlayerWidget::selectionChanged(int field) {
-	
+	QString state = rootObject()->property("state").toString();
+	if (state == "PLAYER") {
+		rootObject()->setProperty("selected", QVariant(field%4));
+	} else if (state == "CLOCK") {
+		rootObject()->setProperty("state", QVariant("PLAYER"));
+	} else if (state == "STATIONLIST") {
+		if (field > lastSelection) {
+			QVariant returnedValue;
+			QMetaObject::invokeMethod(rootObject(), "prevStation", Q_RETURN_ARG(QVariant, returnedValue));
+		} else if (field < lastSelection) {
+			QVariant returnedValue;
+			QMetaObject::invokeMethod(rootObject(), "nextStation", Q_RETURN_ARG(QVariant, returnedValue));
+		}
+	} else {
+		qDebug("Application in unknown state!");
+	}
+	lastState = state;
+	lastSelection = field;
 }
 
 void PlayerWidget::select() {

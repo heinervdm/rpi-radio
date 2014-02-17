@@ -52,30 +52,24 @@ bool Controls::eventFilter (QObject *obj, QEvent *event) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent *> (event);
 		switch (keyEvent->key()) {
 			case Qt::Key_Enter:
-				qDebug ("Ate key %d", keyEvent->key());
 				emit rightButtonPressed();
 				break;
 			case Qt::Key_Control:
-				qDebug ("Ate key %d", keyEvent->key());
 				emit leftButtonPressed();
 				break;
 			case  Qt::Key_Up:
-				qDebug ("Ate key %d", keyEvent->key());
 				leftPos++;
 				emit leftEncoderChanged(leftPos);
 				break;
 			case  Qt::Key_Down:
-				qDebug ("Ate key %d", keyEvent->key());
 				leftPos--;
 				emit leftEncoderChanged(leftPos);
 				break;
 			case Qt::Key_Plus:
-				qDebug ("Ate key %d", keyEvent->key());
 				if (rightPos < 100) rightPos++;
 				emit rightEncoderChanged(rightPos);
 				break;
 			case Qt::Key_Minus:
-				qDebug ("Ate key %d", keyEvent->key());
 				if (rightPos > 0) rightPos--;
 				emit rightEncoderChanged(rightPos);
 				break;

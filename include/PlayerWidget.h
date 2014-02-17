@@ -14,6 +14,8 @@ class PlayerWidget  : public QDeclarativeView {
 		Controls *c;
 		Phonon::MediaObject *music;
 		Phonon::AudioOutput *audioOutput;
+		QString lastState;
+		int lastSelection;
 	public:
 		PlayerWidget();
 		~PlayerWidget();

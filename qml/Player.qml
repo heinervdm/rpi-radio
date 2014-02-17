@@ -28,6 +28,12 @@ Rectangle {
 		 volumeWidget.setVolume(volume)
 		 console.log("Volume changed to: "+ volume)
 	}
+	function nextStation() {
+		stationlist.incrementCurrentIndex()
+	}
+	function prevStation() {
+		stationlist.decrementCurrentIndex()
+	}
 
 	Volume {
 		id: volumeWidget
