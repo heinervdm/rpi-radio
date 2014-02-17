@@ -113,5 +113,6 @@ void PlayerWidget::selectionChanged(int field) {
 }
 
 void PlayerWidget::select() {
-	
+	QVariant returnedValue;
+	QMetaObject::invokeMethod(rootObject(), "click", Q_RETURN_ARG(QVariant, returnedValue));
 }

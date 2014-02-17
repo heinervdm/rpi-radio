@@ -34,6 +34,13 @@ Rectangle {
 	function prevStation() {
 		stationlist.decrementCurrentIndex()
 	}
+	function click() {
+		switch (selected) {
+			case 0:
+			case 1:
+			case 2:
+		}
+	}
 
 	Volume {
 		id: volumeWidget
