@@ -35,10 +35,16 @@ Rectangle {
 		stationlist.decrementCurrentIndex()
 	}
 	function click() {
-		switch (selected) {
-			case 0:
-			case 1:
-			case 2:
+		if (main.state == "PLAYER") {
+			switch (main.selected) {
+				case 1: stationsClicked(); break
+				case 2: playClicked(); break
+				case 3: favoriteClicked(); break
+			}
+		} else if (main.state == "STATIONLIST") {
+			stationChanged(stationlist.model.get(stationlist.currentIndex).name, stationlist.model.get(stationlist.currentIndex).stream, stationlist.model.get(stationlist.currentIndex).playlist)
+		} else if (main.state == "CLOCK") {
+			main.state = "PLAYER"
 		}
 	}
 

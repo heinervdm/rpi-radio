@@ -94,7 +94,7 @@ void PlayerWidget::volumeChanged(int volume) {
 void PlayerWidget::selectionChanged(int field) {
 	QString state = rootObject()->property("state").toString();
 	if (state == "PLAYER") {
-		rootObject()->setProperty("selected", QVariant(field%4));
+		rootObject()->setProperty("selected", QVariant((field % 4 + 4) % 4));
 	} else if (state == "CLOCK") {
 		rootObject()->setProperty("state", QVariant("PLAYER"));
 	} else if (state == "STATIONLIST") {
