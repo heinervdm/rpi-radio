@@ -6,6 +6,7 @@
 
 PlayerWidget::PlayerWidget() {
 	setSource(QUrl("qrc:/qml/Player.qml"));
+	setWindowState(Qt::WindowFullScreen);
 
 	c = new Controls(0,80);
 	music = new Phonon::MediaObject(this);
