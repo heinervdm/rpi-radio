@@ -3,7 +3,7 @@
 #include "PlayerWidget.h"
 
 int main(int argc, char** argv) {
-	QApplication app(argc, argv, QApplication::GuiServer);
+	QApplication app(argc, argv);
 	app.setApplicationName("RPiClock");
 	PlayerWidget foo;
 	foo.show();

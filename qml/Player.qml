@@ -2,8 +2,9 @@ import QtQuick 1.1
 
 Rectangle {
 	id: main
-	width: 160
-	height: 128
+	implicitWidth: 160
+	implicitHeight: 128
+	anchors.fill: parent
 	color: "black"
 	state: "CLOCK"
 	property bool fav: false
