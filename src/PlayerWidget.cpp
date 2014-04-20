@@ -5,6 +5,7 @@
 #include <phonon/MediaSource>
 
 PlayerWidget::PlayerWidget() {
+	setWindowFlags(Qt::FramelessWindowHint);
 	setSource(QUrl("qrc:/qml/Player.qml"));
 	setWindowState(Qt::WindowFullScreen);
 

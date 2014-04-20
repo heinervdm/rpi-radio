@@ -6,6 +6,6 @@ int main(int argc, char** argv) {
 	QApplication app(argc, argv);
 	app.setApplicationName("RPiClock");
 	PlayerWidget foo;
-	foo.show();
+	foo.showFullScreen();
 	return app.exec();
 }
