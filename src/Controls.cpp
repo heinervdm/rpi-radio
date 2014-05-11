@@ -5,10 +5,10 @@
 Controls::Controls(int leftenc, int rightenc) {
 	leftPos = leftenc;
 	rightPos = rightenc;
-	leftButton = new Button (1);
-	rightButton = new Button (2);
-	leftEncoder = new Encoder (3, 4, leftPos);
-	rightEncoder = new Encoder (5, 6, rightPos);
+	leftButton = new Button (4);
+	rightButton = new Button (22);
+	leftEncoder = new Encoder (2, 3, leftPos);
+	rightEncoder = new Encoder (17, 18, rightPos);
 	connect (leftButton, SIGNAL (pressed()), this, SLOT (leftButtonPressedSlot()));
 	connect (rightButton, SIGNAL (pressed()), this, SLOT (rightButtonPressedSlot()));
 	connect (leftEncoder, SIGNAL (newPos (int)), this, SLOT (leftEncoderChangedSlot (int)));

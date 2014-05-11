@@ -68,7 +68,7 @@ void GPIO::write (GPIO::level l) {
 
 void GPIO::setDirection (GPIO::direction d) {
 	if (!exported) return;
-	QFile f(QString("/sys/class/gpio/gpio%d/direction").arg(pin));
+	QFile f(QString("/sys/class/gpio/gpio%1/direction").arg(pin));
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return;
 	QString c;
 	if (d==in) {
