@@ -30,7 +30,7 @@ void Encoder::init (int pina, int pinb, int pos) {
 
 	QTimer *timer = new QTimer (this);
 	connect (timer, SIGNAL (timeout()), this, SLOT (read()));
-	timer->start (10);
+	timer->start (1);
 	QTimer *timer2 = new QTimer (this);
 	connect (timer2, SIGNAL (timeout()), this, SLOT (getPos()));
 	timer2->start (100);

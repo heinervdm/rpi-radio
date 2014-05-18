@@ -72,11 +72,11 @@ void GPIO::setDirection (GPIO::direction d) {
 	if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return;
 	QString c;
 	if (d==in) {
-		c="in";
+		c="in\n";
 		dir = in;
 	}
 	else {
-		c="out";
+		c="out\n";
 		dir=out;
 	}
 	f.write(c.toStdString().c_str(), c.length());
