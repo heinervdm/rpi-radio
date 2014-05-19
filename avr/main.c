@@ -43,8 +43,8 @@ static int8_t last0, last1;
 #define ALL_KEYS        (1<<KEY0 | 1<<KEY1 | 1<<KEY2)
  
 #define REPEAT_MASK     (1<<KEY1 | 1<<KEY2)       // repeat: key1, key2
-#define REPEAT_START    50                        // after 500ms
-#define REPEAT_NEXT     20                        // every 200ms
+#define REPEAT_START    250                       // after 250ms
+#define REPEAT_NEXT     150                       // every 150ms
  
 volatile uint8_t key_state;                                // debounced and inverted key state: bit = 1: key pressed
 volatile uint8_t key_press;                                // key press detect
