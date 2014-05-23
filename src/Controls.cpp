@@ -47,9 +47,9 @@ void Controls::rightEncoderChangedSlot (int pos) {
 	rightPos = pos;
 }
 
-bool Controls::eventFilter (QObject *obj, QEvent *event) {
-	if (event->type() == QEvent::KeyPress) {
-		QKeyEvent *keyEvent = static_cast<QKeyEvent *> (event);
+bool Controls::eventFilter (QObject *obj, QEvent *evt) {
+	if (evt->type() == QEvent::KeyPress) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent *> (evt);
 		switch (keyEvent->key()) {
 			case Qt::Key_Enter:
 				emit rightButtonPressed();
@@ -75,11 +75,11 @@ bool Controls::eventFilter (QObject *obj, QEvent *event) {
 				break;
 			default:
 				qDebug ("Unused key %d", keyEvent->key());
-				return QObject::eventFilter (obj, event);
+				return QObject::eventFilter (obj, evt);
 		}
 		return true;
 	} else {
 		// standard event processing
-		return QObject::eventFilter (obj, event);
+		return QObject::eventFilter (obj, evt);
 	}
 }

@@ -1,6 +1,6 @@
 #include "PlayerWidget.h"
 
-#include <QtGui/QGraphicsItem>
+#include <QGraphicsItem>
 
 #include <phonon/MediaSource>
 

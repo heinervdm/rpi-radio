@@ -1,5 +1,5 @@
 #include "GPIO.h"
-#include <QtCore/QFile>
+#include <QFile>
 
 GPIO::GPIO() {
 	exported = false;

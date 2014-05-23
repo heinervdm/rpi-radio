@@ -1,6 +1,6 @@
 #include "Button.h"
 
-#include <QtCore/QTimer>
+#include <QTimer>
 
 Button::Button() {
 

@@ -1,9 +1,9 @@
 #include "Encoder.h"
 
-#include <QtCore/QTimer>
+#include <QTimer>
 
 Encoder::Encoder (int pina, int pinb, int pos) : QObject() {
-	init (pina, pinb);
+	init (pina, pinb, pos);
 }
 
 Encoder::~Encoder() {
