@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 
-#include <QtCore/QObject>
-#include <QtCore/QEvent>
+#include <QObject>
+#include <QEvent>
+#include <QSerialPort>
 
 #include "Button.h"
 #include "Encoder.h"
@@ -24,11 +25,13 @@ class Controls : public QObject {
 		void rightEncoderChangedSlot(int pos);
 		void leftButtonPressedSlot();
 		void rightButtonPressedSlot();
+		void uartEvent();
 	private:
 		Button *leftButton, *rightButton;
 		Encoder *leftEncoder, *rightEncoder;
 		int leftPos;
 		int rightPos;
+		QSerialPort *serial;
 	signals:
 		void leftEncoderChanged(int pos);
 		void rightEncoderChanged(int pos);

@@ -3,16 +3,19 @@
 #include <QKeyEvent>
 
 Controls::Controls(int leftenc, int rightenc) {
+	serial = new QSerialPort("/dev/ttyACM0");
+	serial->open(QSerialPort::ReadOnly);
+	connect(serial, SIGNAL(readyRead()), this, SLOT(uartEvent()));
 	leftPos = leftenc;
 	rightPos = rightenc;
 	leftButton = new Button (4);
 	rightButton = new Button (22);
-	leftEncoder = new Encoder (2, 3, leftPos);
-	rightEncoder = new Encoder (17, 18, rightPos);
+// 	leftEncoder = new Encoder (2, 3, leftPos);
+// 	rightEncoder = new Encoder (17, 18, rightPos);
 	connect (leftButton, SIGNAL (pressed()), this, SLOT (leftButtonPressedSlot()));
 	connect (rightButton, SIGNAL (pressed()), this, SLOT (rightButtonPressedSlot()));
-	connect (leftEncoder, SIGNAL (newPos (int)), this, SLOT (leftEncoderChangedSlot (int)));
-	connect (rightEncoder, SIGNAL (newPos (int)), this, SLOT (rightEncoderChangedSlot (int)));
+// 	connect (leftEncoder, SIGNAL (newPos (int)), this, SLOT (leftEncoderChangedSlot (int)));
+// 	connect (rightEncoder, SIGNAL (newPos (int)), this, SLOT (rightEncoderChangedSlot (int)));
 }
 
 Controls::~Controls() {
@@ -82,4 +85,21 @@ bool Controls::eventFilter (QObject *obj, QEvent *evt) {
 		// standard event processing
 		return QObject::eventFilter (obj, evt);
 	}
+}
+
+void Controls::uartEvent() {
+	QByteArray data = serial->readAll();
+	qDebug("UART: " + data);
+	if (data.startsWith("Encoder L:")) {
+		emit leftEncoderChanged(data.split(':').at(1).toInt());
+	} else if (data.startsWith("Encoder R:")) {
+		int v = data.split(':').at(1).toInt();
+		v = (v > 100) ? 100 : v;
+		emit rightEncoderChanged(v);
+	} else if (data.startsWith("Button Pressed: L")) {
+		emit leftButtonPressed();
+	} else if (data.startsWith("Button Pressed: M")) {
+	} else if (data.startsWith("Button Pressed: R")) {
+		emit rightButtonPressed();
+	}  
 }

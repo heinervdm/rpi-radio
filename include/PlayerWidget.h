@@ -1,10 +1,10 @@
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
 
-#include <QtDeclarative/QDeclarativeView>
+#include <QDeclarativeView>
 
-#include <phonon/MediaObject>
-#include <phonon/AudioOutput>
+#include <MediaObject>
+#include <AudioOutput>
 
 #include "Controls.h"
 
