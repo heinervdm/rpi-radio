@@ -1,53 +1,18 @@
 #include "Controls.h"
 
 #include <QKeyEvent>
+#include <QDebug>
 
 Controls::Controls(int leftenc, int rightenc) {
+	leftPos = leftenc;
+	rightPos = rightenc;
 	serial = new QSerialPort("/dev/ttyACM0");
 	serial->open(QSerialPort::ReadOnly);
 	connect(serial, SIGNAL(readyRead()), this, SLOT(uartEvent()));
-	leftPos = leftenc;
-	rightPos = rightenc;
-	leftButton = new Button (4);
-	rightButton = new Button (22);
-// 	leftEncoder = new Encoder (2, 3, leftPos);
-// 	rightEncoder = new Encoder (17, 18, rightPos);
-	connect (leftButton, SIGNAL (pressed()), this, SLOT (leftButtonPressedSlot()));
-	connect (rightButton, SIGNAL (pressed()), this, SLOT (rightButtonPressedSlot()));
-// 	connect (leftEncoder, SIGNAL (newPos (int)), this, SLOT (leftEncoderChangedSlot (int)));
-// 	connect (rightEncoder, SIGNAL (newPos (int)), this, SLOT (rightEncoderChangedSlot (int)));
 }
 
 Controls::~Controls() {
-
-}
-
-void Controls::setLeftEncoderPositon(int pos) {
-	leftPos = pos;
-}
-
-void Controls::setRightEncoderPosition(int pos) {
-	rightPos = pos;
-}
-
-void Controls::leftButtonPressedSlot() {
-	emit leftButtonPressed();
-}
-
-void Controls::leftEncoderChangedSlot (int pos) {
-	leftPos = pos;
-	emit leftEncoderChanged (pos);
-}
-
-void Controls::rightButtonPressedSlot() {
-	emit rightButtonPressed();
-}
-
-void Controls::rightEncoderChangedSlot (int pos) {
-	if (pos > 100) rightEncoder->setPos(100);
-	if (pos < 0) rightEncoder->setPos(0);
-	if (rightPos != pos) emit rightEncoderChanged (pos);
-	rightPos = pos;
+	serial->deleteLater();
 }
 
 bool Controls::eventFilter (QObject *obj, QEvent *evt) {

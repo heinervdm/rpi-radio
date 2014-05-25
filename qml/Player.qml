@@ -1,4 +1,5 @@
-import QtQuick 1.1
+import QtQuick 2.0
+import QtMultimedia 5.0
 
 Rectangle {
 	id: main
@@ -17,7 +18,12 @@ Rectangle {
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
-	signal stationChanged(string name, string stream, string playlist)
+	signal stationChanged(string name, string url, string cover)
+
+	Audio {
+		id: playMusic
+	}
+
 	onStationsClicked: {
 		main.state = "STATIONLIST"
 	}
@@ -43,7 +49,7 @@ Rectangle {
 				case 3: favoriteClicked(); break
 			}
 		} else if (main.state == "STATIONLIST") {
-			stationChanged(stationlist.model.get(stationlist.currentIndex).name, stationlist.model.get(stationlist.currentIndex).stream, stationlist.model.get(stationlist.currentIndex).playlist)
+			stationChanged(stationlist.model.get(stationlist.currentIndex).name, stationlist.model.get(stationlist.currentIndex).url, stationlist.model.get(stationlist.currentIndex).cover)
 		} else if (main.state == "CLOCK") {
 			main.state = "PLAYER"
 		}
@@ -63,7 +69,7 @@ Rectangle {
 	StationList {
 		id: stationlist
 		onSelected: {
-			main.stationChanged(name, stream, playlist)
+			main.stationChanged(name, url, cover)
 		}
 	}
 

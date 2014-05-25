@@ -1,33 +1,28 @@
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
 
-#include <QDeclarativeView>
-
-#include <MediaObject>
-#include <AudioOutput>
+#include <QQuickView>
+#include <QUrl>
+#include <QString>
 
 #include "Controls.h"
+#include "StationObject.h"
 
-class PlayerWidget  : public QDeclarativeView {
+class PlayerWidget  : public QQuickView {
 		Q_OBJECT
+
 	private:
 		Controls *c;
-		Phonon::MediaObject *music;
-		Phonon::AudioOutput *audioOutput;
 		QString lastState;
 		int lastSelection;
+		QList<QObject*> stationList;
 	public:
 		PlayerWidget();
 		~PlayerWidget();
 	public slots:
-		void stationSelected(QString station, QString stream, QString playlist);
-		void volumeChanged(int volume);
 		void selectionChanged(int field);
 		void select();
 	private slots:
-		void playPressed();
-		void metaDataChanged();
-		void musicStateChanged(Phonon::State neu, Phonon::State old);
 };
 
 #endif // PLAYERWIDGET_H

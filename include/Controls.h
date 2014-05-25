@@ -15,20 +15,11 @@ class Controls : public QObject {
 	public:
 		Controls(int leftenc = 0, int rightenc = 100);
 		~Controls();
-	public slots:
-		void setLeftEncoderPositon(int pos);
-		void setRightEncoderPosition(int pos);
 	protected:
 		bool eventFilter(QObject *obj, QEvent *event);
 	private slots:
-		void leftEncoderChangedSlot(int pos);
-		void rightEncoderChangedSlot(int pos);
-		void leftButtonPressedSlot();
-		void rightButtonPressedSlot();
 		void uartEvent();
 	private:
-		Button *leftButton, *rightButton;
-		Encoder *leftEncoder, *rightEncoder;
 		int leftPos;
 		int rightPos;
 		QSerialPort *serial;
@@ -37,6 +28,7 @@ class Controls : public QObject {
 		void rightEncoderChanged(int pos);
 		void leftButtonPressed();
 		void rightButtonPressed();
+		void middleButtonPressed();
 };
 
 #endif // CONTROLS_H

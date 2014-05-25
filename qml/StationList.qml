@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 2.0
 
 ListView {
 	id: stationList
@@ -6,7 +6,7 @@ ListView {
 	property bool visibility: false
 	anchors.fill: parent
 	visible: visibility
-	signal selected(string name, string stream, string playlist)
+	signal selected(string name, string url, string cover)
 
 	Component {
 		id: stationsDelegate
@@ -24,13 +24,13 @@ ListView {
 				id: stationMouseArea
 				anchors.fill: parent
 				onPressed: {
-					stationList.selected(name, stream, playlist)
+					stationList.selected(name, url, cover)
 				}
 			}
 		}
 	}
 
-	model: Stations {}
+	model: parent.Stations
 	delegate: stationsDelegate
 	focus: true
 }
