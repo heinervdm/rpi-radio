@@ -2,8 +2,10 @@ import QtQuick 2.0
 
 Rectangle {
 	id: main
+	implicitWidth: 320
+	implicitHeight: 240
 	z: 10
-	anchors.fill: parent
+// 	anchors.fill: parent
 	color: "black"
 	property bool visibility: true
 	visible: visibility

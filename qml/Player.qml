@@ -2,10 +2,10 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 
 Rectangle {
-	id: main
+	id: player
 	implicitWidth: 320
 	implicitHeight: 240
-	anchors.fill: parent
+// 	anchors.fill: parent
 	color: "black"
 	state: "CLOCK"
 	property bool fav: false
@@ -20,20 +20,35 @@ Rectangle {
 	signal stationsClicked()
 	signal stationChanged(string name, string url, string cover)
 
-	Audio {
+	MediaPlayer {
 		id: playMusic
+		source: Qt.resolvedUrl("http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live")
+		onPlaybackStateChanged: {
+			if (playMusic.playbackState == PlayingState) {
+				player.title = playMusic.metaData.albumArtist
+				player.subtitle = playMusic.metaData.albumTitle
+			} else {
+				player.title = ""
+				player.subtitle = ""
+			}
+		}
 	}
-
+	onPlayClicked: {
+		playMusic.play()
+	}
 	onStationsClicked: {
-		main.state = "STATIONLIST"
+		player.state = "STATIONLIST"
 	}
 	onStationChanged: {
-		console.log("Station selected: " +name)
-		main.state = "PLAYER"
+		console.log("Station selected: " + name)
+		player.state = "PLAYER"
+		playMusic.source = Qt.resolvedUrl(url)
+		player.name = name
 	}
 	onVolumeChanged: {
 		 volumeWidget.setVolume(volume)
 		 console.log("Volume changed to: "+ volume)
+		 playMusic.volume = volume/100.0
 	}
 	function nextStation() {
 		stationlist.incrementCurrentIndex()
@@ -42,16 +57,16 @@ Rectangle {
 		stationlist.decrementCurrentIndex()
 	}
 	function click() {
-		if (main.state == "PLAYER") {
-			switch (main.selected) {
+		if (player.state == "PLAYER") {
+			switch (player.selected) {
 				case 1: stationsClicked(); break
 				case 2: playClicked(); break
 				case 3: favoriteClicked(); break
 			}
-		} else if (main.state == "STATIONLIST") {
+		} else if (player.state == "STATIONLIST") {
 			stationChanged(stationlist.model.get(stationlist.currentIndex).name, stationlist.model.get(stationlist.currentIndex).url, stationlist.model.get(stationlist.currentIndex).cover)
-		} else if (main.state == "CLOCK") {
-			main.state = "PLAYER"
+		} else if (player.state == "CLOCK") {
+			player.state = "PLAYER"
 		}
 	}
 
@@ -62,14 +77,14 @@ Rectangle {
 	Clock {
 		id: clock
 		onClockClicked: {
-			main.state = "PLAYER"
+			player.state = "PLAYER"
 		}
 	}
 
 	StationList {
 		id: stationlist
 		onSelected: {
-			main.stationChanged(name, url, cover)
+			player.stationChanged(name, url, cover)
 		}
 	}
 
@@ -121,8 +136,8 @@ Rectangle {
 		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
-		anchors.bottom: main.bottom
-		anchors.left: main.left
+		anchors.bottom: player.bottom
+		anchors.left: player.left
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
 		Text {
@@ -134,7 +149,7 @@ Rectangle {
 		MouseArea{
 			id: stationsMouseArea
 			anchors.fill: parent
-			onClicked: main.stationsClicked()
+			onClicked: player.stationsClicked()
 		}
 		color: stationsMouseArea.pressed || parent.selected == 1 ? "grey" : parent.color
 	}
@@ -145,20 +160,20 @@ Rectangle {
 		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
-		anchors.right: main.right
-		anchors.bottom: main.bottom
+		anchors.right: player.right
+		anchors.bottom: player.bottom
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
 		Text {
 			font.pixelSize: parent.height * 0.55
 			anchors.centerIn: parent
 			color: "white"
-			text: (main.playing) ? "Stop" : "Play"
+			text: (player.playing) ? "Stop" : "Play"
 		}
 		MouseArea{
 			id: playMouseArea
 			anchors.fill: parent
-			onClicked: main.playClicked()
+			onClicked: player.playClicked()
 		}
 		color: playMouseArea.pressed || parent.selected == 2 ? "grey" : parent.color
 	}
@@ -174,15 +189,15 @@ Rectangle {
 		border.width: 1
 		border.color: parent.selected ==3 ? "red" : "yellow"
 		color: fav ? "yellow" : "transparent"
-		anchors.right: main.right
-		anchors.top: main.top
+		anchors.right: player.right
+		anchors.top: player.top
 		opacity: 0.5
 		MouseArea{
 			id: favoriteMouseArea
 			anchors.fill: parent
 			onClicked: {
 				fav = !fav
-				main.favoriteClicked()
+				player.favoriteClicked()
 			}
 		}
 	}

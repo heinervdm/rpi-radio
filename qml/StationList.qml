@@ -3,8 +3,10 @@ import QtQuick 2.0
 ListView {
 	id: stationList
 	z:4
+	implicitWidth: 320
+	implicitHeight: 240
 	property bool visibility: false
-	anchors.fill: parent
+// 	anchors.fill: parent
 	visible: visibility
 	signal selected(string name, string url, string cover)
 
@@ -30,7 +32,7 @@ ListView {
 		}
 	}
 
-	model: parent.Stations
+	model: Stations {}
 	delegate: stationsDelegate
 	focus: true
 }
