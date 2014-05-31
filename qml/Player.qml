@@ -15,6 +15,7 @@ Rectangle {
 	property string subtitle: ""
 	property int selected: 0 // 0=none, 1=stations, 2=play, 3=favorite
 	property int volume: 80
+	property ListModel stations;
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
@@ -66,6 +67,7 @@ Rectangle {
 
 	StationList {
 		id: stationlist
+		stations: Stations {}
 		onSelected: {
 			player.stationChanged(name, url, cover)
 		}

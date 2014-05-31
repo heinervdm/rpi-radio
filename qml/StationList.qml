@@ -6,6 +6,7 @@ Rectangle {
 	implicitWidth: 320
 	implicitHeight: 240
 	property bool visibility: false
+	property ListModel stations;
 
 	visible: visibility
 	signal selected(string name, string url, string cover)
@@ -27,7 +28,7 @@ Rectangle {
 
 	CoverFlow {
 		id: coverFlow
-		listModel: Stations {}
+		listModel: stationList.stations
 
 		width: parent.width
 		anchors.top: parent.top
@@ -47,40 +48,3 @@ Rectangle {
 		color: "black"
 	}
 }
-/*
-ListView {
-	id: stationList
-	z:4
-	implicitWidth: 320
-	implicitHeight: 240
-	property bool visibility: false
-// 	anchors.fill: parent
-	visible: visibility
-	signal selected(string name, string url, string cover)
-
-	Component {
-		id: stationsDelegate
-		Rectangle {
-			id: wrapper
-			width:  stationList.width
-			height: stationInfo.height
-			color: ListView.isCurrentItem ? "grey" : "black"
-			Text {
-				id: stationInfo
-				text: name
-				color: "white"
-			}
-			MouseArea {
-				id: stationMouseArea
-				anchors.fill: parent
-				onPressed: {
-					stationList.selected(name, url, cover)
-				}
-			}
-		}
-	}
-
-	model: Stations {}
-	delegate: stationsDelegate
-	focus: true
-}*/

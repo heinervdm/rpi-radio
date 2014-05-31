@@ -3,6 +3,8 @@
 #include <QGraphicsItem>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QNetworkRequest>
+#include <QUrl>
 
 #include "StationObject.h"
 
@@ -11,6 +13,7 @@ PlayerWidget::PlayerWidget() {
 	setSource(QUrl("qrc:/qml/Player.qml"));
 // 	setWindowState(Qt::WindowFullScreen);
 
+	player = new QMediaPlayer;
 	c = new Controls(0,80);
 	connect(c, SIGNAL(rightEncoderChanged(int)), this, SLOT(volumeChanged(int)));
 	connect(c, SIGNAL(leftEncoderChanged(int)), this, SLOT(selectionChanged(int)));
@@ -18,15 +21,37 @@ PlayerWidget::PlayerWidget() {
 	connect(c, SIGNAL(rightButtonPressed()), this, SLOT(select()));
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
 	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString, QString, QString)));
+	connect(player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(mediaDataChanged(QMediaContent)));
 
-	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", ""));
-	rootContext()->setContextProperty("Stations", QVariant::fromValue(stationList));
+	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
+	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
+	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
+	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
+	rootContext()->setContextProperty("stations", QVariant::fromValue(stationList));
 
 	installEventFilter(c);
 }
 
 PlayerWidget::~PlayerWidget() {
 	if (c) delete c;
+}
+
+void PlayerWidget::playPressed() {
+	player->play();
+}
+
+void PlayerWidget::stationSelected(QString name, QString url, QString cover) {
+	QUrl u = QUrl(url);
+	QNetworkRequest req = QNetworkRequest(u);
+	player->setMedia(u);
+}
+
+void PlayerWidget::mediaDataChanged(const QMediaContent& media) {
+	
+}
+
+void PlayerWidget::volumeChanged(int v) {
+	rootObject()->setProperty("volume",QVariant(v));
 }
 
 void PlayerWidget::selectionChanged(int field) {

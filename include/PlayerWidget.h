@@ -4,6 +4,8 @@
 #include <QQuickView>
 #include <QUrl>
 #include <QString>
+#include <QMediaPlayer>
+#include <QMediaContent>
 
 #include "Controls.h"
 #include "StationObject.h"
@@ -16,6 +18,7 @@ class PlayerWidget  : public QQuickView {
 		QString lastState;
 		int lastSelection;
 		QList<QObject*> stationList;
+		QMediaPlayer *player;
 	public:
 		PlayerWidget();
 		~PlayerWidget();
@@ -23,6 +26,10 @@ class PlayerWidget  : public QQuickView {
 		void selectionChanged(int field);
 		void select();
 	private slots:
+		void playPressed();
+		void stationSelected(QString name, QString url, QString cover);
+		void mediaDataChanged(const QMediaContent & media);
+		void volumeChanged(int v);
 };
 
 #endif // PLAYERWIDGET_H
