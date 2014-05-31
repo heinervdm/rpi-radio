@@ -11,14 +11,14 @@ ListModel {
 	ListElement {
 		name: "1LIVE"
 		stream: ""
-		cover: ""
+		cover: "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"
 		url: "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live"
 	}
 
 	ListElement {
 		name: "1LIVE diggi"
 		stream: ""
-		cover: ""
+		cover: "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"
 		url: "http://1live-diggi.akacast.akamaistream.net/7/965/119435/v1/gnl.akacast.akamaistream.net/1live-diggi"
 	}
 
@@ -32,14 +32,14 @@ ListModel {
 	ListElement {
 		name: "Antenne 1"
 		stream: ""
-		cover: ""
+		cover: "http://static.antenne1.de/content/pictures/tpl/logo-antenne1.png"
 		url: "http://stream.antenne1.de/stream2/livestream.mp3"
 	}
 
 	ListElement {
 		name: "Antenne Bayern"
 		stream: "http://mp3.webradio.antenne.de:80"
-		cover: ""
+		cover: "http://www.webradio.de/internetradio/images/logo_aby_gross.jpg"
 		url: "http://www.antenne.de/webradio/antenne.wmx"
 	}
 
@@ -88,14 +88,14 @@ ListModel {
 	ListElement {
 		name: "bigFM"
 		stream: ""
-		cover: ""
+		cover: "http://static.bigfm.de/content/pictures/tpl/bigfm.png"
 		url: "http://srv05.bigstreams.de/bigfm-mp3-96"
 	}
 
 	ListElement {
 		name: "Blackbeats.FM"
 		stream: ""
-		cover: ""
+		cover: "http://blackbeats.fm/images/logo.png"
 		url: "http://blackbeats.fm/listen.m3u"
 	}
 
@@ -123,14 +123,14 @@ ListModel {
 	ListElement {
 		name: "Dasding";
 		stream: "http://swr-mp3-m-dasding.akacast.akamaistream.net/7/588/137139/v1/gnl.akacast.akamaistream.net/swr-mp3-m-dasding"
-		cover: ""
+		cover: "http://www.dasding.de/-/id=434098/property=detail/m6io9h/index.jpg"
 		url: "http://mp3-live.dasding.de/dasding_m.m3u"
 	}
 
 	ListElement {
 		name: "delta radio"
 		stream: ""
-		cover: ""
+		cover: "http://www.deltaradio.de/images/DELTA/logo.png"
 		url: "http://streams.deltaradio.de/delta-live/mp3-128/wwwchipde"
 	}
 
@@ -144,14 +144,14 @@ ListModel {
 	ListElement {
 		name: "detektor.fm"
 		stream: ""
-		cover: ""
+		cover: "http://detektor.fm/download/?file=/images/uploads/downloads/detektor-logo-final.png"
 		url: "http://detektor.fm/stream/mp3/musik/"
 	}
 
 	ListElement {
 		name: "Deutschlandfunk"
 		stream: ""
-		cover: ""
+		cover: "http://www.deutschlandradio.de/media/files/1/1a471d2a0586a7aec12cd3199d4b675fv2.png"
 		url: "http://www.dradio.de/streaming/dlf.m3u"
 	}
 
@@ -172,7 +172,7 @@ ListModel {
 	ListElement {
 		name: "egoFM"
 		stream: ""
-		cover: ""
+		cover: "http://www.egofm.de/templates/egofm/img/logo.png"
 		url: "http://edge.live.mp3.mdn.newmedia.nacamar.net/ps-egofm_128/livestream.mp3"
 	}
 
@@ -186,42 +186,42 @@ ListModel {
 	ListElement {
 		name: "Energy Berlin"
 		stream: ""
-		cover: ""
+		cover: "http://static3.energy.de/fileadmin/images/layout/ci/logo/logo_121_140_on_brightground.png.pagespeed.ce.HUJqn3wPEa.png"
 		url: "http://energyradio.de/berlin"
 	}
 
 	ListElement {
 		name: "Energy Bremen"
 		stream: ""
-		cover: ""
+		cover: "http://static3.energy.de/fileadmin/images/layout/ci/logo/logo_121_140_on_brightground.png.pagespeed.ce.HUJqn3wPEa.png"
 		url: "http://energyradio.de/bremen"
 	}
 
 	ListElement {
 		name: "Energy Hamburg"
 		stream: ""
-		cover: ""
+		cover: "http://static3.energy.de/fileadmin/images/layout/ci/logo/logo_121_140_on_brightground.png.pagespeed.ce.HUJqn3wPEa.png"
 		url: "http://energyradio.de/hamburg"
 	}
 
 	ListElement {
 		name: "Energy München"
 		stream: ""
-		cover: ""
+		cover: "http://static3.energy.de/fileadmin/images/layout/ci/logo/logo_121_140_on_brightground.png.pagespeed.ce.HUJqn3wPEa.png"
 		url: "http://www.energyradio.de/muenchen"
 	}
 
 	ListElement {
 		name: "Energy Stuttgart"
 		stream: ""
-		cover: ""
+		cover: "http://static3.energy.de/fileadmin/images/layout/ci/logo/logo_121_140_on_brightground.png.pagespeed.ce.HUJqn3wPEa.png"
 		url: "http://energyradio.de/stuttgart"
 	}
 
 	ListElement {
 		name: "ffn"
 		stream: ""
-		cover: ""
+		cover: "http://www.ffn.de/fileadmin/templates/img/ffn_logo.jpg"
 		url: "http://player.ffn.de/tunein_ffn.pls"
 	}
 
@@ -235,29 +235,22 @@ ListModel {
 	ListElement {
 		name: "Fritz"
 		stream: "http://rbb.ic.llnwd.net/stream/rbb_fritz_mp3_m_a"
-		cover: ""
+		cover: "https://upload.wikimedia.org/wikipedia/de/thumb/3/3b/Rbb-fritz-logo.svg/602px-Rbb-fritz-logo.svg.png"
 		url: "http://www.fritz.de/live.m3u"
 	}
 
 	ListElement {
 		name: "Hit-Radio Antenne"
 		stream: ""
-		cover: ""
+		cover: "http://cdn.antenne.com/static/img/ant-logo-004.png"
 		url: "http://stream.antenne.com/hra-nds/mp3-128/IMDADevice/"
 	}
 
 	ListElement {
 		name: "Hit Radio FFH"
 		stream: "http://mp3.ffh.de/radioffh/hqlivestream.mp3"
-		cover: ""
+		cover: "http://static.ffh.de/fileadmin/templates/www.ffh.de/images/logo.png"
 		url: "http://streams.ffh.de/radioffh/mp3/hqlivestream.m3u"
-	}
-
-	ListElement {
-		name: "HouseTime.FM"
-		stream: ""
-		cover: ""
-		url: "http://listen.housetime.fm/dsl.pls"
 	}
 
 	ListElement {
@@ -270,7 +263,7 @@ ListModel {
 	ListElement {
 		name: "Kiss FM"
 		stream: ""
-		cover: ""
+		cover: "http://static.kissfm.de/images/logo.png"
 		url: "http://stream.kissfm.de/kissfm/mp3-128/internetradio/"
 	}
 
@@ -284,14 +277,14 @@ ListModel {
 	ListElement {
 		name: "MDR Jump"
 		stream: "http://c22033-l.i.core.cdn.streamfarm.net/22004mdrjump/live/3087mdr_jump/live_de_128.mp3"
-		cover: ""
+		cover: "http://www.jumpradio.de/service/kontakt/logi100_v-modIndexStandard_zc-fc76ae11.jpg?version=30207"
 		url: "http://www.jumpradio.de/static/webchannel/jump_live_channel_high.m3u"
 	}
 
 	ListElement {
 		name: "N-JOY"
 		stream: ""
-		cover: ""
+		cover: "http://www.n-joy.de/resources/images/logo.png"
 		url: "http://ndrstream.ic.llnwd.net/stream/ndrstream_n-joy_hi_mp3"
 	}
 
@@ -312,21 +305,21 @@ ListModel {
 	ListElement {
 		name: "Ostseewelle Hit-Radio"
 		stream: ""
-		cover: ""
+		cover: "http://www.ostseewelle.de/wp-content/themes/sight/images/logo.png"
 		url: "http://edge.live.mp3.mdn.newmedia.nacamar.net/ostseewellelive/livestream.mp3"
 	}
 
 	ListElement {
 		name: "Planet Radio"
 		stream: "http://mp3.ffh.de/planetradio/hqlivestream.mp3"
-		cover: ""
+		cover: "http://static.planetradio.de/fileadmin/templates/www.planetradio.de/images/logo.png"
 		url: "http://streams.planetradio.de/planetradio/mp3/hqlivestream.m3u"
 	}
 
 	ListElement {
 		name: "R.SH"
 		stream: ""
-		cover: ""
+		cover: "http://www.rsh.de/images/RSH/logo.png"
 		url: "http://streams.rsh.de/rsh-live/mp3-128/wwwchipde"
 	}
 
@@ -340,21 +333,21 @@ ListModel {
 	ListElement {
 		name: "Radio Gong 96,3"
 		stream: "http://radiator.nci.de:8000/live"
-		cover: ""
+		cover: "http://www.radiogong.de/sites/default/files/insight_logo.png"
 		url: "http://www.radiogong.de/live/high_q.m3u"
 	}
 
 	ListElement {
 		name: "Radio Hamburg"
 		stream: ""
-		cover: ""
+		cover: "http://www.radiohamburg.de/var/data/titelanzeige/default-radiohh-100x66.jpg"
 		url: "http://mp3.radiohamburg.c.nmdn.net/radiohamburg/livestream192.mp3"
 	}
 
 	ListElement {
 		name: "Rock Antenne"
 		stream: "http://mp3.webradio.rockantenne.de/"
-		cover: ""
+		cover: "http://www.rockantenne.de/imda/logos/600x600/ROCK-ANTENNE.png"
 		url: "http://www.rockantenne.de/webradio/rockantenne.m3u"
 	}
 
@@ -417,7 +410,7 @@ ListModel {
 	ListElement {
 		name: "SWR3"
 		stream: "http://swr-mp3-m-swr3.akacast.akamaistream.net/7/720/137136/v1/gnl.akacast.akamaistream.net/swr-mp3-m-swr3"
-		cover: ""
+		cover: "http://www.swr3.de/-/id=404778/property=thumbnail/width=260/height=156/pubVersion=15/1ygku8j/index.jpg"
 		url: "http://mp3-live.swr3.de/swr3_m.m3u"
 	}
 
@@ -459,7 +452,7 @@ ListModel {
 	ListElement {
 		name: "You FM"
 		stream: "http://gffstream.ic.llnwd.net/stream/gffstream_mp3_w72b"
-		cover: ""
+		cover: "http://www.you-fm.de/images/logo-youfm-3.jpg"
 		url: "http://metafiles.gl-systemhaus.de/hr/youfm_2.m3u"
 	}
 }

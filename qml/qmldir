@@ -3,3 +3,4 @@ Volume 1.0 Volume.qml
 Clock 1.0 Clock.qml
 Stations 1.0 Stations.qml
 StationList 1.0 StationList.qml
+CoverFlow 1.0 CoverFlow.qml

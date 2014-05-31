@@ -20,29 +20,12 @@ Rectangle {
 	signal stationsClicked()
 	signal stationChanged(string name, string url, string cover)
 
-	MediaPlayer {
-		id: playMusic
-		source: Qt.resolvedUrl("http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live")
-		onPlaybackStateChanged: {
-			if (playMusic.playbackState == PlayingState) {
-				player.title = playMusic.metaData.albumArtist
-				player.subtitle = playMusic.metaData.albumTitle
-			} else {
-				player.title = ""
-				player.subtitle = ""
-			}
-		}
-	}
-	onPlayClicked: {
-		playMusic.play()
-	}
 	onStationsClicked: {
 		player.state = "STATIONLIST"
 	}
 	onStationChanged: {
 		console.log("Station selected: " + name)
 		player.state = "PLAYER"
-		playMusic.source = Qt.resolvedUrl(url)
 		player.name = name
 	}
 	onVolumeChanged: {
