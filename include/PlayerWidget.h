@@ -7,15 +7,12 @@
 #include <QMediaPlayer>
 #include <QMediaContent>
 
-#include "StationObject.h"
-
 class PlayerWidget  : public QQuickView {
 		Q_OBJECT
 
 	private:
 		QString lastState;
 		int lastSelection;
-		QList<QObject*> stationList;
 		QMediaPlayer *player;
 	public:
 		PlayerWidget();

@@ -7,7 +7,7 @@ Rectangle {
 	property int itemWidth: 100
 	property int itemHeight: 100
 
-	property ListModel listModel
+	property alias listModel: myPathView.model
 
 	signal indexChanged(int index)
 	signal itemSelected(int index)
@@ -91,7 +91,7 @@ Rectangle {
 		preferredHighlightEnd: 0.5
 		focus: true
 		interactive: true
-		model: listModel
+		model: stationModel
 		delegate: appDelegate
 		path: Path {
 			startX: 0

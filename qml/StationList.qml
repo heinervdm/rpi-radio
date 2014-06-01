@@ -6,7 +6,7 @@ Rectangle {
 	implicitWidth: 320
 	implicitHeight: 240
 	property bool visibility: false
-	property ListModel stations;
+	property alias stations: coverFlow.listModel
 
 	visible: visibility
 	signal selected(string name, string url, string cover)
@@ -28,7 +28,6 @@ Rectangle {
 
 	CoverFlow {
 		id: coverFlow
-		listModel: stationList.stations
 
 		width: parent.width
 		anchors.top: parent.top

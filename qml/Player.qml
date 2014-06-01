@@ -8,13 +8,14 @@ Rectangle {
 	implicitHeight: 240
 	color: "black"
 	state: "CLOCK"
+
 	property bool fav: false
 	property bool playing: false
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
 	property int volume: 80
-	property ListModel stations;
+
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
@@ -37,6 +38,10 @@ Rectangle {
 	}
 	function prevStation() {
 		stationlist.decrementCurrentIndex()
+	}
+	function appendStation(newElement) {
+		console.log("append new station: " + newElement.name +"!")
+		stationlist.stations.append(newElement)
 	}
 
 	Keys.onUpPressed: {
@@ -106,7 +111,6 @@ Rectangle {
 	StationList {
 		id: stationlist
 		anchors.fill: parent
-		stations: Stations {}
 		onSelected: {
 			player.stationChanged(name, url, cover)
 		}
@@ -234,7 +238,7 @@ Rectangle {
 				visibility: true
 			}
 			PropertyChanges {
-				target:	stationlist
+				target: stationlist
 				visibility: false
 			}
 		},
@@ -245,7 +249,7 @@ Rectangle {
 				visibility: false
 			}
 			PropertyChanges {
-				target:	stationlist
+				target: stationlist
 				visibility: false
 			}
 		},
@@ -256,7 +260,7 @@ Rectangle {
 				visibility: false
 			}
 			PropertyChanges {
-				target:	stationlist
+				target: stationlist
 				visibility: true
 			}
 		}

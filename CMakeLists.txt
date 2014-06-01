@@ -10,8 +10,8 @@ find_package(Qt5Multimedia REQUIRED)
 
 include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Multimedia_INCLUDE_DIRS} ${Qt5Qml_INCLUDE_DIRS} ${Qt5Quick_INCLUDE_DIRS} ${Qt5SerialPort_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} include)
 
-set(rpi-radio_HDRS include/QmlControl.h include/Controls.h include/Button.h include/Encoder.h include/PlayerWidget.h include/GPIO.h include/StationObject.h)
-set(rpi-radio_SRCS src/QmlControl.cpp src/Controls.cpp src/Button.cpp src/Encoder.cpp src/PlayerWidget.cpp src/GPIO.cpp src/StationObject.cpp main.cpp)
+set(rpi-radio_HDRS include/StationModel.h include/QmlControl.h include/Controls.h include/Button.h include/Encoder.h include/PlayerWidget.h include/GPIO.h include/StationObject.h)
+set(rpi-radio_SRCS src/StationModel.cpp src/QmlControl.cpp src/Controls.cpp src/Button.cpp src/Encoder.cpp src/PlayerWidget.cpp src/GPIO.cpp src/StationObject.cpp main.cpp)
 
 QT5_WRAP_CPP(rpi-radio_MOC ${rpi-radio_HDRS})
 QT5_ADD_RESOURCES(rpi-radio_RESOURCES_RCC rpi-radio.qrc)
