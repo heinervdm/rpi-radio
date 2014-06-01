@@ -1,11 +1,11 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
+import QmlControl 1.0
 
 Rectangle {
 	id: player
 	implicitWidth: 320
 	implicitHeight: 240
-// 	anchors.fill: parent
 	color: "black"
 	state: "CLOCK"
 	property bool fav: false
@@ -13,7 +13,6 @@ Rectangle {
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
-	property int selected: 0 // 0=none, 1=stations, 2=play, 3=favorite
 	property int volume: 80
 	property ListModel stations;
 	signal favoriteClicked()
@@ -32,7 +31,6 @@ Rectangle {
 	onVolumeChanged: {
 		 volumeWidget.setVolume(volume)
 		 console.log("Volume changed to: "+ volume)
-		 playMusic.volume = volume/100.0
 	}
 	function nextStation() {
 		stationlist.incrementCurrentIndex()
@@ -40,26 +38,66 @@ Rectangle {
 	function prevStation() {
 		stationlist.decrementCurrentIndex()
 	}
-	function click() {
-		if (player.state == "PLAYER") {
-			switch (player.selected) {
-				case 1: stationsClicked(); break
-				case 2: playClicked(); break
-				case 3: favoriteClicked(); break
-			}
-		} else if (player.state == "STATIONLIST") {
-			stationChanged(stationlist.model.get(stationlist.currentIndex).name, stationlist.model.get(stationlist.currentIndex).url, stationlist.model.get(stationlist.currentIndex).cover)
-		} else if (player.state == "CLOCK") {
-			player.state = "PLAYER"
+
+	Keys.onUpPressed: {
+		if (volume < 100) volume++;
+	}
+	Keys.onDownPressed: {
+		if (volume > 0) volume--;
+	}
+	Keys.onLeftPressed: {
+		if (player.state == "STATIONLIST") prevStation();
+	}
+	Keys.onRightPressed: {
+		if (player.state == "STATIONLIST") nextStation();
+	}
+	Keys.onReturnPressed: {
+		if (player.state == "PLAYER") playClicked();
+		else if (player.state == "CLOCK") player.state = "PLAYER";
+		else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+	}
+	Keys.onSpacePressed: { 
+		if (player.state == "PLAYER") stationsClicked()
+		else if (player.state == "CLOCK") player.state = "PLAYER";
+		else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+	}
+
+	Control {
+		onVolumeIncremented: {
+			if (volume < 100) volume++;
+		}
+		onVolumeDecremented: {
+			if (volume > 0)   volume--;
+		}
+		onSelectionIncremented: {
+			if (player.state == "STATIONLIST") nextStation();
+		}
+		onSelectionDecremented: {
+			if (player.state == "STATIONLIST") prevStation();
+		}
+		onLeftButtonPressed: {
+			if (player.state == "PLAYER") stationsClicked();
+			else if (player.state == "CLOCK") player.state = "PLAYER";
+			else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+		}
+		onMiddleButtonPressed: {
+			if (player.state == "CLOCK") player.state = "PLAYER";
+		}
+		onRightButtonPressed: {
+			if (player.state == "PLAYER") playClicked();
+			else if (player.state == "CLOCK") player.state = "PLAYER";
+			else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
 		}
 	}
 
 	Volume {
 		id: volumeWidget
+		anchors.fill: parent
 	}
 
 	Clock {
 		id: clock
+		anchors.fill: parent
 		onClockClicked: {
 			player.state = "PLAYER"
 		}
@@ -67,6 +105,7 @@ Rectangle {
 
 	StationList {
 		id: stationlist
+		anchors.fill: parent
 		stations: Stations {}
 		onSelected: {
 			player.stationChanged(name, url, cover)

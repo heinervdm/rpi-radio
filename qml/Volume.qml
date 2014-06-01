@@ -5,7 +5,6 @@ Rectangle {
 	z: 5
 	implicitWidth: 320
 	implicitHeight: 240
-// 	anchors.fill: parent
 	opacity: 0.5
 	color: "grey"
 	property int volume: 80

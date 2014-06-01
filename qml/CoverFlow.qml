@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QmlControl 1.0
 
 Rectangle {
 	id: coverFlow
@@ -40,8 +41,6 @@ Rectangle {
 				}
 			}
 
-			Keys.onReturnPressed: itemClicked()
-
 			MouseArea {
 				anchors.fill: parent
 				onClicked: itemClicked()
@@ -78,9 +77,6 @@ Rectangle {
 
 	PathView {
 		id: myPathView
-
-		Keys.onRightPressed: if (!moving && interactive) incrementCurrentIndex()
-		Keys.onLeftPressed: if (!moving && interactive) decrementCurrentIndex()
 
 		signal itemClicked()
 		signal click()

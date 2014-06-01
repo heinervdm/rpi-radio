@@ -37,7 +37,7 @@ Rectangle {
 		onIndexChanged: {
 			myText.text = listModel.get(index).name
 		}
-		
+
 		onItemSelected: {
 			selected(listModel.get(index).name, listModel.get(index).url, listModel.get(index).cover)
 		}

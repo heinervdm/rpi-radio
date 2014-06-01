@@ -7,18 +7,14 @@
 #include <QUrl>
 
 #include "StationObject.h"
+#include "QmlControl.h"
 
 PlayerWidget::PlayerWidget() {
-// 	setWindowFlags(Qt::FramelessWindowHint);
+	qmlRegisterType<QmlControl>("QmlControl", 1, 0, "Control");
+	// 	setWindowFlags(Qt::FramelessWindowHint);
 	setSource(QUrl("qrc:/qml/Player.qml"));
 // 	setWindowState(Qt::WindowFullScreen);
-
 	player = new QMediaPlayer;
-	c = new Controls(0,80);
-	connect(c, SIGNAL(rightEncoderChanged(int)), this, SLOT(volumeChanged(int)));
-	connect(c, SIGNAL(leftEncoderChanged(int)), this, SLOT(selectionChanged(int)));
-	connect(c, SIGNAL(leftButtonPressed()), this, SLOT(select()));
-	connect(c, SIGNAL(rightButtonPressed()), this, SLOT(select()));
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
 	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString, QString, QString)));
 	connect(player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(mediaDataChanged(QMediaContent)));
@@ -28,12 +24,9 @@ PlayerWidget::PlayerWidget() {
 	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
 	stationList.append(new StationObject("1Live", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
 	rootContext()->setContextProperty("stations", QVariant::fromValue(stationList));
-
-	installEventFilter(c);
 }
 
 PlayerWidget::~PlayerWidget() {
-	if (c) delete c;
 }
 
 void PlayerWidget::playPressed() {
