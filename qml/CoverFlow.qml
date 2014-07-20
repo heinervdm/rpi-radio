@@ -1,5 +1,4 @@
-import QtQuick 2.0
-import QmlControl 1.0
+import QtQuick 1.0
 
 Rectangle {
 	id: coverFlow
@@ -8,24 +7,33 @@ Rectangle {
 	property int itemHeight: 100
 
 	property alias listModel: myPathView.model
+// 	property alias currentIndex: myPathView.currentIndex
 
-	signal indexChanged(int index)
-	signal itemSelected(int index)
+	property int index;
+	property string name;
+	property string url;
+	property string cover;
+
+	signal indexChanged(int index, string name)
+	signal itemSelected(string name, string url, string cover)
 
 	function incrementCurrentIndex() {
+		console.log("incrementCurrentIndex 2")
 		myPathView.incrementCurrentIndex()
 	}
 
 	function decrementCurrentIndex() {
+		console.log("decrementCurrentIndex 2")
 		myPathView.decrementCurrentIndex()
 	}
 
 	Component {
 		id: appDelegate
 
-		Rectangle {
+		Flipable {
 			id: myFlipable
-			property double angle: PathView.angle
+
+			property bool flipped: false
 
 			width: itemWidth; height: itemHeight
 			z: PathView.z
@@ -33,24 +41,44 @@ Rectangle {
 
 			function itemClicked() {
 				if (myPathView.currentIndex == index) {
-					PathView.view.currentIndex = index
-					PathView.view.click()
+					myPathView.click()
 				}
 				else {
-					PathView.view.currentIndex = index
+					myPathView.currentIndex = index
 				}
+			}
+
+			Binding {
+				target: coverFlow;
+				property: "name";
+				value: name;
+				when: myPathView.currentIndex == index
+			}
+
+			Binding {
+				target: coverFlow;
+				property: "index";
+				value: index;
+				when: myPathView.currentIndex == index
+			}
+
+			Binding {
+				target: coverFlow;
+				property: "url";
+				value: url;
+				when: myPathView.currentIndex == index
+			}
+
+			Binding {
+				target: coverFlow;
+				property: "cover";
+				value: cover;
+				when: myPathView.currentIndex == index
 			}
 
 			MouseArea {
 				anchors.fill: parent
 				onClicked: itemClicked()
-			}
-			transform: Rotation {
-				id: rotation
-				origin.x: myFlipable.width/2
-				origin.y: myFlipable.height/2
-				axis.x: 0; axis.y: 1; axis.z: 0
-				angle: myFlipable.angle
 			}
 
 			Rectangle {
@@ -78,20 +106,21 @@ Rectangle {
 	PathView {
 		id: myPathView
 
-		signal itemClicked()
-		signal click()
+		signal stationSelected()
 
-		onClick: {
-			itemClicked()
+ 		function click() {
+			stationSelected()
 		}
 
+		onIncrementCurrentIndex: console.log("index incrementet")
+		onDecrementCurrentIndex: console.log("index decrementet")
+
 		anchors.fill: parent
-		pathItemCount: 10
 		preferredHighlightBegin: 0.5
 		preferredHighlightEnd: 0.5
 		focus: true
-		interactive: true
-		model: stationModel
+		pathItemCount: 10
+		model: listModel
 		delegate: appDelegate
 		path: Path {
 			startX: 0
@@ -108,14 +137,14 @@ Rectangle {
 			PathAttribute { name: "angle"; value: -60 }
 			PathAttribute { name: "iconScale"; value: 0.5 }
 		}
-    }
+	}
 
 	Component.onCompleted: {
 		myPathView.currentIndexChanged.connect(function(){
-			indexChanged(myPathView.currentIndex);
+			indexChanged(index, name);
 		})
-		myPathView.itemClicked.connect(function(){
-			itemSelected(myPathView.currentIndex);
+		myPathView.stationSelected.connect(function(){
+			itemSelected(name, url, cover);
 		})
 	}
 }

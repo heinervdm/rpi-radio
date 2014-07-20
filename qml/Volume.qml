@@ -1,10 +1,10 @@
-import QtQuick 2.0
+import QtQuick 1.0
 
 Rectangle {
 	id: background
 	z: 5
-	implicitWidth: 320
-	implicitHeight: 240
+// 	implicitWidth: 320
+// 	implicitHeight: 240
 	opacity: 0.5
 	color: "grey"
 	property int volume: 80

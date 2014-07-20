@@ -1,13 +1,13 @@
 #ifndef PLAYERWIDGET_H
 #define PLAYERWIDGET_H
 
-#include <QQuickView>
+#include <QDeclarativeView>
 #include <QUrl>
 #include <QString>
 #include <QMediaPlayer>
 #include <QMediaContent>
 
-class PlayerWidget  : public QQuickView {
+class PlayerWidget  : public QDeclarativeView {
 		Q_OBJECT
 
 	private:

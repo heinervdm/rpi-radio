@@ -1,10 +1,9 @@
-import QtQuick 2.0
-import QmlControl 1.0
+import QtQuick 1.0
 
 Rectangle {
 	id: main
-	implicitWidth: 320
-	implicitHeight: 240
+// 	implicitWidth: 320
+// 	implicitHeight: 240
 	z: 10
 // 	anchors.fill: parent
 	color: "black"

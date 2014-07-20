@@ -1,11 +1,10 @@
-import QtQuick 2.0
-import QtMultimedia 5.0
+import QtQuick 1.0
 import QmlControl 1.0
 
 Rectangle {
 	id: player
-	implicitWidth: 320
-	implicitHeight: 240
+	width: 320
+	height: 240
 	color: "black"
 	state: "CLOCK"
 
@@ -51,20 +50,22 @@ Rectangle {
 		if (volume > 0) volume--;
 	}
 	Keys.onLeftPressed: {
+		console.log("left pressed")
 		if (player.state == "STATIONLIST") prevStation();
 	}
 	Keys.onRightPressed: {
+		console.log("right pressed")
 		if (player.state == "STATIONLIST") nextStation();
 	}
 	Keys.onReturnPressed: {
 		if (player.state == "PLAYER") playClicked();
 		else if (player.state == "CLOCK") player.state = "PLAYER";
-		else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+		else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
 	}
 	Keys.onSpacePressed: { 
 		if (player.state == "PLAYER") stationsClicked()
 		else if (player.state == "CLOCK") player.state = "PLAYER";
-		else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+		else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
 	}
 
 	Control {
@@ -83,7 +84,7 @@ Rectangle {
 		onLeftButtonPressed: {
 			if (player.state == "PLAYER") stationsClicked();
 			else if (player.state == "CLOCK") player.state = "PLAYER";
-			else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+			else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
 		}
 		onMiddleButtonPressed: {
 			if (player.state == "CLOCK") player.state = "PLAYER";
@@ -91,7 +92,7 @@ Rectangle {
 		onRightButtonPressed: {
 			if (player.state == "PLAYER") playClicked();
 			else if (player.state == "CLOCK") player.state = "PLAYER";
-			else if (player.state == "STATIONLIST") stationChanged(stationlist.stations.get(stationlist.stations.currentIndex).name,stationlist.stations.get(stationlist.stations.currentIndex).url,stationlist.stations.get(stationlist.stations.currentIndex).cover);
+			else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
 		}
 	}
 
@@ -111,6 +112,7 @@ Rectangle {
 	StationList {
 		id: stationlist
 		anchors.fill: parent
+		stations: stationModel
 		onSelected: {
 			player.stationChanged(name, url, cover)
 		}
