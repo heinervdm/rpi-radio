@@ -1,21 +1,33 @@
 project(rpi-radio)
 cmake_minimum_required(VERSION 2.6)
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5SerialPort REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5Declarative REQUIRED)
-set(QtIncDirs ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Declarative_INCLUDE_DIRS} ${Qt5Multimedia_INCLUDE_DIRS} ${Qt5Qml_INCLUDE_DIRS} ${Qt5Quick_INCLUDE_DIRS} ${Qt5SerialPort_INCLUDE_DIRS})
-set(QtLibs ${Qt5Core_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Declarative_LIBRARIES} ${Qt5Multimedia_LIBRARIES} ${Qt5Qml_LIBRARIES} ${Qt5Quick_LIBRARIES} ${Qt5SerialPort_LIBRARIES})
-
-include_directories(${QtIncDirs} ${CMAKE_CURRENT_BINARY_DIR} include)
-
 set(rpi-radio_HDRS include/QmlControl.h include/Controls.h include/Button.h include/Encoder.h include/PlayerWidget.h include/GPIO.h include/StationObject.h)
 set(rpi-radio_SRCS src/QmlControl.cpp src/Controls.cpp src/Button.cpp src/Encoder.cpp src/PlayerWidget.cpp src/GPIO.cpp src/StationObject.cpp main.cpp)
 
-QT5_WRAP_CPP(rpi-radio_MOC ${rpi-radio_HDRS})
-QT5_ADD_RESOURCES(rpi-radio_RESOURCES_RCC rpi-radio.qrc)
+find_package(Qt5Core QUIET)
+if (DEFINED Qt5Core_INCLUDE_DIRS)
+	find_package(Qt5Widgets REQUIRED)
+	find_package(Qt5SerialPort REQUIRED)
+	find_package(Qt5Multimedia REQUIRED)
+	find_package(Qt5Declarative REQUIRED)
+	set(QtIncDirs ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Declarative_INCLUDE_DIRS} ${Qt5Multimedia_INCLUDE_DIRS} ${Qt5Qml_INCLUDE_DIRS} ${Qt5Quick_INCLUDE_DIRS} ${Qt5SerialPort_INCLUDE_DIRS})
+	set(QtLibs ${Qt5Core_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Declarative_LIBRARIES} ${Qt5Multimedia_LIBRARIES} ${Qt5Qml_LIBRARIES} ${Qt5Quick_LIBRARIES} ${Qt5SerialPort_LIBRARIES})
+	QT5_WRAP_CPP(rpi-radio_MOC ${rpi-radio_HDRS})
+	QT5_ADD_RESOURCES(rpi-radio_RESOURCES_RCC rpi-radio.qrc)
+	set(HAVE_QT5 ${TRUE})
+ELSE(DEFINED Qt5Core_INCLUDE_DIRS)
+	find_package(Qt4 REQUIRED QtCore QtGui QtDeclarative Phonon)
+	find_package(QtSerialPort REQUIRED)
+	set(QtIncDirs ${QT_INCLUDES} ${QT_PHONON_INCLUDE_DIR} ${QtSerialPort_INCLUDE_DIR})
+	set(QtLibs ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTDECLARATIVE_LIBRARY} ${QT_PHONON_LIBRARY} ${QtSerialPort_LIBRARY})
+	QT4_WRAP_CPP(rpi-radio_MOC ${rpi-radio_HDRS})
+	QT4_ADD_RESOURCES(rpi-radio_RESOURCES_RCC rpi-radio.qrc)
+	set(HAVE_QT4 ${TRUE})
+ENDIF(DEFINED Qt5Core_INCLUDE_DIRS)
+
+include_directories(${QtIncDirs} ${CMAKE_CURRENT_BINARY_DIR} include)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O2 -g -Wall -pthread -fstack-protector-all -Wstack-protector -Woverloaded-virtual -Wextra -Wshadow -Wsuggest-attribute=noreturn")
 

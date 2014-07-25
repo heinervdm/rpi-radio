@@ -8,6 +8,10 @@
 #include "StationObject.h"
 #include "QmlControl.h"
 
+#ifdef HAVE_QT4
+#include <phonon/MediaSource>
+#endif
+
 PlayerWidget::PlayerWidget() {
 	qmlRegisterType<QmlControl>("QmlControl", 1, 0, "Control");
 
@@ -82,10 +86,18 @@ PlayerWidget::PlayerWidget() {
 	// 	setWindowFlags(Qt::FramelessWindowHint);
 	setSource(QUrl("qrc:/qml/Player.qml"));
 // 	setWindowState(Qt::WindowFullScreen);
+#ifdef HAVE_QT5
 	player = new QMediaPlayer;
+// 	connect(player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(mediaDataChanged(QMediaContent)));
+#elif HAVE_QT5
+	music = new Phonon::MediaObject(this);
+	audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+	Phonon::Path path = Phonon::createPath(music, audioOutput);
+	connect(music, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
+	connect(music, SIGNAL(stateChanged(Phonon::State, Phonon::State)), this, SLOT(musicStateChanged(Phonon::State, Phonon::State)));
+#endif
 	connect(rootObject(), SIGNAL(playClicked()), this, SLOT(playPressed()));
 	connect(rootObject(), SIGNAL(stationChanged(QString, QString, QString)), this, SLOT(stationSelected(QString, QString, QString)));
-// 	connect(player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(mediaDataChanged(QMediaContent)));
 
 // 	rootContext()->setContextProperty("width", 320);
 // 	rootContext()->setContextProperty("height",240);
@@ -95,21 +107,73 @@ PlayerWidget::~PlayerWidget() {
 }
 
 void PlayerWidget::playPressed() {
+#ifdef HAVE_QT5
 	player->play();
+#elif HAVE_QT5
+	music->play();
+#endif
 }
 
 void PlayerWidget::stationSelected(QString name, QString url, QString cover) {
 	QUrl u = QUrl(url);
+#ifdef HAVE_QT5
 	QNetworkRequest req = QNetworkRequest(u);
 	player->setMedia(u);
+#elif HAVE_QT5
+	if (playlist.length() > 0) {
+		music->setCurrentSource(Phonon::MediaSource(QUrl(playlist)));
+	}
+	else if (stream.length() > 0) {
+		music->setCurrentSource(Phonon::MediaSource(QUrl(stream)));
+	}
+	else {
+		qDebug("Can not play station: No URL given!");
+		return;
+	}
+	rootObject()->setProperty("name", QVariant(station));
+	rootObject()->setProperty("title", QVariant(""));
+	rootObject()->setProperty("subtitle", QVariant(""));
+#endif
 }
 
+#ifdef HAVE_QT5
 void PlayerWidget::mediaDataChanged(const QMediaContent& media) {
 	
 }
+#elif HAVE_QT5
+void PlayerWidget::metaDataChanged() {
+	QStringList artist = music->metaData(Phonon::ArtistMetaData);
+	QStringList title = music->metaData(Phonon::TitleMetaData);
+
+	if (artist.count() > 0) {
+		rootObject()->setProperty("title", QVariant(artist.first()));
+	}
+	else {
+		rootObject()->setProperty("title", QVariant(""));
+	}
+	if (title.count() > 0) {
+		rootObject()->setProperty("subtitle", QVariant(title.first()));
+	}
+	else {
+		rootObject()->setProperty("subtitle", QVariant(""));
+	}
+}
+
+void PlayerWidget::musicStateChanged(Phonon::State neu, Phonon::State) {
+	if (neu == Phonon::StoppedState) {
+		rootObject()->setProperty("playing", QVariant(false));
+	}
+	else if (neu == Phonon::PlayingState) {
+		rootObject()->setProperty("playing", QVariant(true));
+	}
+}
+#endif
 
 void PlayerWidget::volumeChanged(int v) {
 	rootObject()->setProperty("volume",QVariant(v));
+#ifdef HAVE_QT4
+		audioOutput->setVolume(1.0 * v / 100.0);
+#endif
 }
 
 void PlayerWidget::selectionChanged(int field) {
