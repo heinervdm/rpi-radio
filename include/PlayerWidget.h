@@ -9,7 +9,7 @@
 #ifdef HAVE_QT5
 #include <QMediaPlayer>
 #include <QMediaContent>
-#elif HAVE_QT5
+#else
 #include <phonon/MediaObject>
 #include <phonon/AudioOutput>
 #endif
@@ -22,7 +22,7 @@ class PlayerWidget  : public QDeclarativeView {
 		int lastSelection;
 #ifdef HAVE_QT5
 		QMediaPlayer *player;
-#elif HAVE_QT5
+#else
 		Phonon::MediaObject *music;
 		Phonon::AudioOutput *audioOutput;
 #endif
@@ -38,11 +38,12 @@ class PlayerWidget  : public QDeclarativeView {
 		void stationSelected(QString name, QString url, QString cover);
 #ifdef HAVE_QT5
 		void mediaDataChanged(const QMediaContent & media);
-#elif HAVE_QT5
+#else
 		void metaDataChanged();
 		void musicStateChanged(Phonon::State neu, Phonon::State old);
 #endif
 		void volumeChanged(int v);
+		QUrl urlFromPlaylist(QUrl url);
 };
 
 #endif // PLAYERWIDGET_H

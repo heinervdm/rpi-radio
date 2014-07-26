@@ -4,6 +4,9 @@
 #include <QDeclarativeContext>
 #include <QDeclarativeItem>
 #include <QUrl>
+#include <QEventLoop>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 #include "StationObject.h"
 #include "QmlControl.h"
@@ -16,15 +19,15 @@ PlayerWidget::PlayerWidget() {
 	qmlRegisterType<QmlControl>("QmlControl", 1, 0, "Control");
 
 	QList<QObject *> stations;
-	stations.append( new StationObject( "1.FM Chillout Lounge", "http://tcl.1.fm/tcl128k?MSWMExt=.asf", ""));
+// 	stations.append( new StationObject( "1.FM Chillout Lounge", "http://tcl.1.fm/tcl128k?MSWMExt=.asf", ""));
 	stations.append( new StationObject( "1LIVE", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
 	stations.append( new StationObject( "1LIVE diggi",  "http://1live-diggi.akacast.akamaistream.net/7/965/119435/v1/gnl.akacast.akamaistream.net/1live-diggi",  "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
-	stations.append( new StationObject( "89.0 RTL",  "http://mp3.89.0rtl.de/listen.pls",  ""));
-	stations.append( new StationObject( "Antenne 1",  "http://stream.antenne1.de/stream2/livestream.mp3",  "http://static.antenne1.de/content/pictures/tpl/logo-antenne1.png"));
-	stations.append( new StationObject( "Antenne Bayern",  "http://www.antenne.de/webradio/antenne.wmx",  "http://www.webradio.de/internetradio/images/logo_aby_gross.jpg"));
-	stations.append( new StationObject( "Antenne Bayern 80er Kulthits",  "http://www.antenne.de/webradio/channels/80er-kulthits.wmx",  ""));
-	stations.append( new StationObject( "Antenne Bayern Chillout",  "http://www.antenne.de/webradio/channels/chillout.wmx",  ""));
-	stations.append( new StationObject( "Antenne Bayern Top 40",  "http://www.antenne.de/webradio/channels/top-40.wmx",  ""));
+	stations.append( new StationObject( "89.0 RTL",  "http://mp3.89.0rtl.de:80/",  ""));
+// 	stations.append( new StationObject( "Antenne 1",  "http://stream.antenne1.de/stream2/livestream.mp3",  "http://static.antenne1.de/content/pictures/tpl/logo-antenne1.png"));
+// 	stations.append( new StationObject( "Antenne Bayern",  "http://www.antenne.de/webradio/antenne.wmx",  "http://www.webradio.de/internetradio/images/logo_aby_gross.jpg"));
+// 	stations.append( new StationObject( "Antenne Bayern 80er Kulthits",  "http://www.antenne.de/webradio/channels/80er-kulthits.wmx",  ""));
+// 	stations.append( new StationObject( "Antenne Bayern Chillout",  "http://www.antenne.de/webradio/channels/chillout.wmx",  ""));
+// 	stations.append( new StationObject( "Antenne Bayern Top 40",  "http://www.antenne.de/webradio/channels/top-40.wmx",  ""));
 	stations.append( new StationObject( "B5 Aktuell",  "http://streams.br-online.de/b5aktuell_2.m3u",  ""));
 	stations.append( new StationObject( "Bayern 1",  "http://streams.br-online.de/bayern1_2.m3u",  ""));
 	stations.append( new StationObject( "Bayern 3",  "http://streams.br-online.de/bayern3_2.m3u",  ""));
@@ -89,7 +92,7 @@ PlayerWidget::PlayerWidget() {
 #ifdef HAVE_QT5
 	player = new QMediaPlayer;
 // 	connect(player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(mediaDataChanged(QMediaContent)));
-#elif HAVE_QT5
+#else
 	music = new Phonon::MediaObject(this);
 	audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	Phonon::Path path = Phonon::createPath(music, audioOutput);
@@ -107,30 +110,30 @@ PlayerWidget::~PlayerWidget() {
 }
 
 void PlayerWidget::playPressed() {
+	if (!rootObject()->property("playing").toBool()) {
 #ifdef HAVE_QT5
-	player->play();
-#elif HAVE_QT5
-	music->play();
+		player->play();
+#else
+		music->play();
 #endif
+	} else {
+#ifdef HAVE_QT5
+		player->stop();
+#else
+		music->stop();
+#endif
+	}
 }
 
-void PlayerWidget::stationSelected(QString name, QString url, QString cover) {
+void PlayerWidget::stationSelected(QString name, QString url, QString /*cover*/) {
 	QUrl u = QUrl(url);
 #ifdef HAVE_QT5
 	QNetworkRequest req = QNetworkRequest(u);
 	player->setMedia(u);
-#elif HAVE_QT5
-	if (playlist.length() > 0) {
-		music->setCurrentSource(Phonon::MediaSource(QUrl(playlist)));
-	}
-	else if (stream.length() > 0) {
-		music->setCurrentSource(Phonon::MediaSource(QUrl(stream)));
-	}
-	else {
-		qDebug("Can not play station: No URL given!");
-		return;
-	}
-	rootObject()->setProperty("name", QVariant(station));
+#else
+	if (url.endsWith(".pls") || url.endsWith(".m3u")) u = urlFromPlaylist(u);
+	music->setCurrentSource(Phonon::MediaSource(u));
+	rootObject()->setProperty("name", QVariant(name));
 	rootObject()->setProperty("title", QVariant(""));
 	rootObject()->setProperty("subtitle", QVariant(""));
 #endif
@@ -140,7 +143,7 @@ void PlayerWidget::stationSelected(QString name, QString url, QString cover) {
 void PlayerWidget::mediaDataChanged(const QMediaContent& media) {
 	
 }
-#elif HAVE_QT5
+#else
 void PlayerWidget::metaDataChanged() {
 	QStringList artist = music->metaData(Phonon::ArtistMetaData);
 	QStringList title = music->metaData(Phonon::TitleMetaData);
@@ -172,7 +175,7 @@ void PlayerWidget::musicStateChanged(Phonon::State neu, Phonon::State) {
 void PlayerWidget::volumeChanged(int v) {
 	rootObject()->setProperty("volume",QVariant(v));
 #ifdef HAVE_QT4
-		audioOutput->setVolume(1.0 * v / 100.0);
+	audioOutput->setVolume(1.0 * v / 100.0);
 #endif
 }
 
@@ -200,4 +203,38 @@ void PlayerWidget::selectionChanged(int field) {
 void PlayerWidget::select() {
 	QVariant returnedValue;
 	QMetaObject::invokeMethod(rootObject(), "click", Q_RETURN_ARG(QVariant, returnedValue));
+}
+
+QUrl PlayerWidget::urlFromPlaylist(QUrl url) {
+	QUrl ret;
+	// create custom temporary event loop on stack
+	QEventLoop eventLoop;
+
+	// "quit()" the event-loop, when the network request "finished()"
+	QNetworkAccessManager mgr;
+	QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
+
+	// the HTTP request
+	QNetworkRequest req( url);
+	QNetworkReply *reply = mgr.get(req);
+	eventLoop.exec(); // blocks stack until "finished()" has been called
+
+	if (reply->error() == QNetworkReply::NoError) {
+		QString strReply = (QString)reply->readAll();
+		if (strReply.contains("[playlist]")) {
+			// .pls
+			QRegExp regexp("\bFile\\d+=(.*)\b");
+			if (regexp.indexIn(strReply) != -1) {
+				ret.setUrl(regexp.cap(1));
+			}
+		} else {
+			// .m3u
+			ret.setUrl(strReply.split('\n').at(0));
+		}
+	}
+	else {
+		qDebug() << "Failure" <<reply->errorString();
+	}
+	delete reply;
+	return ret;
 }
