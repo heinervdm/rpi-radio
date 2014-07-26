@@ -3,7 +3,8 @@ import QtQuick 1.0
 Rectangle {
 	id: background
 	z: 5
-	anchors.fill: parent
+// 	implicitWidth: 320
+// 	implicitHeight: 240
 	opacity: 0.5
 	color: "grey"
 	property int volume: 80
@@ -44,10 +45,7 @@ Rectangle {
 		border.color: "white"
 		border.width: 1;
 		radius: 10;
-		anchors.left: background.left
-		anchors.bottom: background.bottom
-		anchors.leftMargin: 30
-		anchors.bottomMargin: 14
+		anchors.centerIn: background
 
 		Rectangle {
 			id: rect1

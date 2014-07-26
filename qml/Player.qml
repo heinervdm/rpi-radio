@@ -1,29 +1,32 @@
-import QtQuick 1.1
+import QtQuick 1.0
+import QmlControl 1.0
 
 Rectangle {
-	id: main
-	implicitWidth: 320
-	implicitHeight: 240
-	anchors.fill: parent
+	id: player
+	width: 320
+	height: 240
 	color: "black"
 	state: "CLOCK"
+
 	property bool fav: false
 	property bool playing: false
 	property string name: ""
 	property string title: ""
 	property string subtitle: ""
-	property int selected: 0 // 0=none, 1=stations, 2=play, 3=favorite
 	property int volume: 80
+
 	signal favoriteClicked()
 	signal playClicked()
 	signal stationsClicked()
-	signal stationChanged(string name, string stream, string playlist)
+	signal stationChanged(string name, string url, string cover)
+
 	onStationsClicked: {
-		main.state = "STATIONLIST"
+		player.state = "STATIONLIST"
 	}
 	onStationChanged: {
-		console.log("Station selected: " +name)
-		main.state = "PLAYER"
+		console.log("Station selected: " + name)
+		player.state = "PLAYER"
+		player.name = name
 	}
 	onVolumeChanged: {
 		 volumeWidget.setVolume(volume)
@@ -35,35 +38,83 @@ Rectangle {
 	function prevStation() {
 		stationlist.decrementCurrentIndex()
 	}
-	function click() {
-		if (main.state == "PLAYER") {
-			switch (main.selected) {
-				case 1: stationsClicked(); break
-				case 2: playClicked(); break
-				case 3: favoriteClicked(); break
-			}
-		} else if (main.state == "STATIONLIST") {
-			stationChanged(stationlist.model.get(stationlist.currentIndex).name, stationlist.model.get(stationlist.currentIndex).stream, stationlist.model.get(stationlist.currentIndex).playlist)
-		} else if (main.state == "CLOCK") {
-			main.state = "PLAYER"
+	function appendStation(newElement) {
+		console.log("append new station: " + newElement.name +"!")
+		stationlist.stations.append(newElement)
+	}
+
+	Keys.onUpPressed: {
+		if (volume < 100) volume++;
+	}
+	Keys.onDownPressed: {
+		if (volume > 0) volume--;
+	}
+	Keys.onLeftPressed: {
+		console.log("left pressed")
+		if (player.state == "STATIONLIST") prevStation();
+	}
+	Keys.onRightPressed: {
+		console.log("right pressed")
+		if (player.state == "STATIONLIST") nextStation();
+	}
+	Keys.onReturnPressed: {
+		if (player.state == "PLAYER") playClicked();
+		else if (player.state == "CLOCK") player.state = "PLAYER";
+		else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
+	}
+	Keys.onSpacePressed: { 
+		if (player.state == "PLAYER") stationsClicked()
+		else if (player.state == "CLOCK") player.state = "PLAYER";
+		else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
+	}
+
+	Control {
+		onVolumeIncremented: {
+			if (volume < 100) volume++;
+		}
+		onVolumeDecremented: {
+			if (volume > 0)   volume--;
+		}
+		onSelectionIncremented: {
+			if (player.state == "STATIONLIST") nextStation();
+		}
+		onSelectionDecremented: {
+			if (player.state == "STATIONLIST") prevStation();
+		}
+		onLeftButtonPressed: {
+			if (player.state == "PLAYER") stationsClicked();
+			else if (player.state == "CLOCK") player.state = "PLAYER";
+			else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
+		}
+		onMiddleButtonPressed: {
+			if (player.state == "CLOCK") player.state = "PLAYER";
+		}
+		onRightButtonPressed: {
+			if (player.state == "PLAYER") playClicked();
+			else if (player.state == "CLOCK") player.state = "PLAYER";
+			else if (player.state == "STATIONLIST") stationChanged(stationlist.currentName,stationlist.currentUrl,stationlist.currentCover);
 		}
 	}
 
 	Volume {
 		id: volumeWidget
+		anchors.fill: parent
 	}
 
 	Clock {
 		id: clock
+		anchors.fill: parent
 		onClockClicked: {
-			main.state = "PLAYER"
+			player.state = "PLAYER"
 		}
 	}
 
 	StationList {
 		id: stationlist
+		anchors.fill: parent
+		stations: stationModel
 		onSelected: {
-			main.stationChanged(name, stream, playlist)
+			player.stationChanged(name, url, cover)
 		}
 	}
 
@@ -115,8 +166,8 @@ Rectangle {
 		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
-		anchors.bottom: main.bottom
-		anchors.left: main.left
+		anchors.bottom: player.bottom
+		anchors.left: player.left
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
 		Text {
@@ -128,7 +179,7 @@ Rectangle {
 		MouseArea{
 			id: stationsMouseArea
 			anchors.fill: parent
-			onClicked: main.stationsClicked()
+			onClicked: player.stationsClicked()
 		}
 		color: stationsMouseArea.pressed || parent.selected == 1 ? "grey" : parent.color
 	}
@@ -139,20 +190,20 @@ Rectangle {
 		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
-		anchors.right: main.right
-		anchors.bottom: main.bottom
+		anchors.right: player.right
+		anchors.bottom: player.bottom
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
 		Text {
 			font.pixelSize: parent.height * 0.55
 			anchors.centerIn: parent
 			color: "white"
-			text: (main.playing) ? "Stop" : "Play"
+			text: (player.playing) ? "Stop" : "Play"
 		}
 		MouseArea{
 			id: playMouseArea
 			anchors.fill: parent
-			onClicked: main.playClicked()
+			onClicked: player.playClicked()
 		}
 		color: playMouseArea.pressed || parent.selected == 2 ? "grey" : parent.color
 	}
@@ -168,15 +219,15 @@ Rectangle {
 		border.width: 1
 		border.color: parent.selected ==3 ? "red" : "yellow"
 		color: fav ? "yellow" : "transparent"
-		anchors.right: main.right
-		anchors.top: main.top
+		anchors.right: player.right
+		anchors.top: player.top
 		opacity: 0.5
 		MouseArea{
 			id: favoriteMouseArea
 			anchors.fill: parent
 			onClicked: {
 				fav = !fav
-				main.favoriteClicked()
+				player.favoriteClicked()
 			}
 		}
 	}
@@ -189,7 +240,7 @@ Rectangle {
 				visibility: true
 			}
 			PropertyChanges {
-				target:	stationlist
+				target: stationlist
 				visibility: false
 			}
 		},
@@ -200,7 +251,7 @@ Rectangle {
 				visibility: false
 			}
 			PropertyChanges {
-				target:	stationlist
+				target: stationlist
 				visibility: false
 			}
 		},
@@ -211,7 +262,7 @@ Rectangle {
 				visibility: false
 			}
 			PropertyChanges {
-				target:	stationlist
+				target: stationlist
 				visibility: true
 			}
 		}

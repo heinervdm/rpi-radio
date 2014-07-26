@@ -1,105 +1,18 @@
 #include "Controls.h"
+#include <QtCore/QtDebug>
 
-#include <QKeyEvent>
-
-Controls::Controls(int leftenc, int rightenc) {
-	serial = new QSerialPort("/dev/ttyACM0");
-	serial->open(QSerialPort::ReadOnly);
-	connect(serial, SIGNAL(readyRead()), this, SLOT(uartEvent()));
-	leftPos = leftenc;
-	rightPos = rightenc;
-	leftButton = new Button (4);
-	rightButton = new Button (22);
-// 	leftEncoder = new Encoder (2, 3, leftPos);
-// 	rightEncoder = new Encoder (17, 18, rightPos);
-	connect (leftButton, SIGNAL (pressed()), this, SLOT (leftButtonPressedSlot()));
-	connect (rightButton, SIGNAL (pressed()), this, SLOT (rightButtonPressedSlot()));
-// 	connect (leftEncoder, SIGNAL (newPos (int)), this, SLOT (leftEncoderChangedSlot (int)));
-// 	connect (rightEncoder, SIGNAL (newPos (int)), this, SLOT (rightEncoderChangedSlot (int)));
+Controls::Controls() {
+	qDebug("Controls initialized.");
 }
 
 Controls::~Controls() {
-
-}
-
-void Controls::setLeftEncoderPositon(int pos) {
-	leftPos = pos;
-}
-
-void Controls::setRightEncoderPosition(int pos) {
-	rightPos = pos;
-}
-
-void Controls::leftButtonPressedSlot() {
-	emit leftButtonPressed();
-}
-
-void Controls::leftEncoderChangedSlot (int pos) {
-	leftPos = pos;
-	emit leftEncoderChanged (pos);
-}
-
-void Controls::rightButtonPressedSlot() {
-	emit rightButtonPressed();
-}
-
-void Controls::rightEncoderChangedSlot (int pos) {
-	if (pos > 100) rightEncoder->setPos(100);
-	if (pos < 0) rightEncoder->setPos(0);
-	if (rightPos != pos) emit rightEncoderChanged (pos);
-	rightPos = pos;
 }
 
 bool Controls::eventFilter (QObject *obj, QEvent *evt) {
+	qDebug("eventFilter called.");
 	if (evt->type() == QEvent::KeyPress) {
-		QKeyEvent *keyEvent = static_cast<QKeyEvent *> (evt);
-		switch (keyEvent->key()) {
-			case Qt::Key_Enter:
-				emit rightButtonPressed();
-				break;
-			case Qt::Key_Control:
-				emit leftButtonPressed();
-				break;
-			case  Qt::Key_Up:
-				leftPos++;
-				emit leftEncoderChanged(leftPos);
-				break;
-			case  Qt::Key_Down:
-				leftPos--;
-				emit leftEncoderChanged(leftPos);
-				break;
-			case Qt::Key_Plus:
-				if (rightPos < 100) rightPos++;
-				emit rightEncoderChanged(rightPos);
-				break;
-			case Qt::Key_Minus:
-				if (rightPos > 0) rightPos--;
-				emit rightEncoderChanged(rightPos);
-				break;
-			default:
-				qDebug ("Unused key %d", keyEvent->key());
-				return QObject::eventFilter (obj, evt);
-		}
-		return true;
-	} else {
-		// standard event processing
-		return QObject::eventFilter (obj, evt);
+		QKeyEvent *kEvent = static_cast<QKeyEvent *> (evt);
+		emit keyEvent(kEvent);
 	}
-}
-
-void Controls::uartEvent() {
-	QByteArray data = serial->readAll();
-	qDebug("UART: " + data);
-	if (data.startsWith("Encoder L:")) {
-		emit leftEncoderChanged(data.split(':').at(1).toInt());
-	} else if (data.startsWith("Encoder R:")) {
-		int v = data.split(':').at(1).toInt();
-		v = (v > 100) ? 100 : v;
-		emit rightEncoderChanged(v);
-	} else if (data.startsWith("Button Pressed: L")) {
-		emit leftButtonPressed();
-	} else if (data.startsWith("Button Pressed: M")) {
-	} else if (data.startsWith("Button Pressed: R")) {
-		emit rightButtonPressed();
-	}  
+	return QObject::eventFilter (obj, evt);
 }
