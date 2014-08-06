@@ -1,5 +1,4 @@
-import QtQuick 1.0
-// import StationModel 1.0
+import QtQuick 1.1
 
 Rectangle {
 	id: stationList
@@ -7,7 +6,6 @@ Rectangle {
 	width: 320
 	height: 240
 	property bool visibility: true
-// 	property StationModel stations;
 	property alias stations: coverFlow.listModel
 	property alias currentName: coverFlow.name
 	property alias currentUrl: coverFlow.url
@@ -17,12 +15,10 @@ Rectangle {
 	signal selected(string name, string url, string cover)
 
 	function incrementCurrentIndex() {
-		console.log("incrementCurrentIndex")
 		coverFlow.incrementCurrentIndex()
 	}
 
 	function decrementCurrentIndex() {
-		console.log("decrementCurrentIndex")
 		coverFlow.decrementCurrentIndex()
 	}
 
@@ -33,6 +29,13 @@ Rectangle {
 		anchors.horizontalCenter: parent.horizontalCenter
 	}
 
+	Binding {
+		target: myText;
+		property: "text";
+		value: coverFlow.name;
+		when: true
+	}
+
 	CoverFlow {
 		id: coverFlow
 
@@ -40,13 +43,6 @@ Rectangle {
 		height: parent.height
 		anchors.top: parent.top
 		anchors.bottom: myText.top
-
-// 		listModel: stations
-
-		onIndexChanged: {
-// 			if (stations == NULL) console.log("stations NULL")
-			myText.text = name
-		}
 
 		onItemSelected: {
 			selected(name, url, cover)

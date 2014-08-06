@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
 Rectangle {
 	id: coverFlow
@@ -7,7 +7,6 @@ Rectangle {
 	property int itemHeight: 100
 
 	property alias listModel: myPathView.model
-// 	property alias currentIndex: myPathView.currentIndex
 
 	property int index;
 	property string name;
@@ -18,12 +17,10 @@ Rectangle {
 	signal itemSelected(string name, string url, string cover)
 
 	function incrementCurrentIndex() {
-		console.log("incrementCurrentIndex 2")
 		myPathView.incrementCurrentIndex()
 	}
 
 	function decrementCurrentIndex() {
-		console.log("decrementCurrentIndex 2")
 		myPathView.decrementCurrentIndex()
 	}
 
@@ -97,6 +94,7 @@ Rectangle {
 					width: parent.width*0.9
 					height: parent.height*0.9
 					source: cover
+					cache: true
 					smooth: true
 				}
 			}
@@ -111,9 +109,6 @@ Rectangle {
  		function click() {
 			stationSelected()
 		}
-
-		onIncrementCurrentIndex: console.log("index incrementet")
-		onDecrementCurrentIndex: console.log("index decrementet")
 
 		anchors.fill: parent
 		preferredHighlightBegin: 0.5
