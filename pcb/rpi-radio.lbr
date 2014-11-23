@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -104,6 +104,25 @@
 <wire x1="-4" y1="2" x2="-4" y2="8" width="0.127" layer="21"/>
 <wire x1="-4" y1="8" x2="-2" y2="8" width="0.127" layer="21"/>
 </package>
+<package name="ALPS_EC12E_SW">
+<description>ALPS rotary encoder&lt;br&gt;
+EC12E series with push-on switch</description>
+<wire x1="-6.2" y1="-6.6" x2="6.2" y2="-6.6" width="0.127" layer="21"/>
+<wire x1="6.2" y1="-6.6" x2="6.2" y2="6.6" width="0.127" layer="21"/>
+<wire x1="6.2" y1="6.6" x2="-6.2" y2="6.6" width="0.127" layer="21"/>
+<wire x1="-6.2" y1="6.6" x2="-6.2" y2="-6.6" width="0.127" layer="21"/>
+<wire x1="-2.6" y1="1.5" x2="2.6" y2="1.5" width="0.127" layer="21"/>
+<circle x="0" y="0" radius="3" width="0.127" layer="21"/>
+<pad name="A" x="-2.5" y="-7.5" drill="1" shape="square"/>
+<pad name="C" x="0" y="-7.5" drill="1" shape="square"/>
+<pad name="B" x="2.5" y="-7.5" drill="1" shape="square"/>
+<pad name="D" x="-2.5" y="7" drill="1" shape="square"/>
+<pad name="E" x="2.5" y="7" drill="1" shape="square"/>
+<pad name="GND1" x="-6.1" y="0" drill="2.54" shape="square"/>
+<pad name="GND2" x="6.1" y="0" drill="2.54" shape="square"/>
+<text x="-2.5" y="8.5" size="1.27" layer="25">&gt;NAME</text>
+<text x="3.5" y="-9" size="1.27" layer="27" rot="R180">&gt;VALUE</text>
+</package>
 </packages>
 <symbols>
 <symbol name="DISPLAY">
@@ -139,6 +158,44 @@
 <wire x1="-13.97" y1="2.54" x2="-16.51" y2="2.54" width="0.254" layer="94"/>
 <wire x1="-16.51" y1="2.54" x2="-16.51" y2="7.62" width="0.254" layer="94"/>
 <wire x1="-16.51" y1="7.62" x2="-15.24" y2="7.62" width="0.254" layer="94"/>
+</symbol>
+<symbol name="ENCODER">
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="4.1275" width="0.3048" layer="94"/>
+<wire x1="-2.54" y1="4.1275" x2="-0.9525" y2="1.905" width="0.3048" layer="94"/>
+<wire x1="-1.905" y1="1.905" x2="-2.54" y2="1.905" width="0.3048" layer="94"/>
+<wire x1="-2.54" y1="1.905" x2="-2.54" y2="0" width="0.3048" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="2.54" y2="4.1275" width="0.3048" layer="94"/>
+<wire x1="2.54" y1="4.1275" x2="4.1275" y2="1.905" width="0.3048" layer="94"/>
+<wire x1="3.175" y1="1.905" x2="2.54" y2="1.905" width="0.3048" layer="94"/>
+<wire x1="2.54" y1="1.905" x2="2.54" y2="0" width="0.3048" layer="94"/>
+<wire x1="-2.54" y1="0" x2="2.54" y2="0" width="0.1524" layer="94"/>
+<circle x="0" y="0" radius="0.5679" width="0" layer="94"/>
+<text x="-3.81" y="0" size="1.27" layer="95" rot="R90">&gt;PART</text>
+<text x="6.35" y="0" size="1.27" layer="96" rot="R90">&gt;VALUE</text>
+<pin name="C" x="0" y="-2.54" visible="off" length="short" direction="pas" rot="R90"/>
+<pin name="A" x="-2.54" y="7.62" visible="off" length="short" direction="pas" rot="R270"/>
+<pin name="B" x="2.54" y="7.62" visible="off" length="short" direction="pas" rot="R270"/>
+</symbol>
+<symbol name="TASTER">
+<wire x1="-2.54" y1="0" x2="-1.5875" y2="0" width="0.3048" layer="94"/>
+<wire x1="-1.5875" y1="0" x2="0.635" y2="1.5875" width="0.3048" layer="94"/>
+<wire x1="0.635" y1="0.635" x2="0.635" y2="0" width="0.3048" layer="94"/>
+<wire x1="0.635" y1="0" x2="2.54" y2="0" width="0.3048" layer="94"/>
+<wire x1="0" y1="1.27" x2="0" y2="3.81" width="0.127" layer="94" style="shortdash"/>
+<wire x1="-0.635" y1="3.81" x2="0.635" y2="3.81" width="0.127" layer="94"/>
+<wire x1="-0.635" y1="3.81" x2="-0.635" y2="3.4925" width="0.127" layer="94"/>
+<wire x1="0.635" y1="3.81" x2="0.635" y2="3.4925" width="0.127" layer="94"/>
+<text x="-5.08" y="5.08" size="1.27" layer="95">&gt;PART</text>
+<text x="-5.08" y="-2.54" size="1.27" layer="96">&gt;VALUE</text>
+<pin name="1" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
+</symbol>
+<symbol name="GEHAEUSEANSCHLUSS">
+<wire x1="0" y1="0" x2="0.9525" y2="0" width="0.254" layer="94"/>
+<wire x1="1.5875" y1="0" x2="2.2225" y2="0" width="0.254" layer="94"/>
+<wire x1="2.8575" y1="0" x2="3.4925" y2="0" width="0.254" layer="94"/>
+<wire x1="4.1275" y1="0" x2="5.08" y2="0" width="0.254" layer="94"/>
+<pin name="G" x="0" y="0" visible="pad" length="point" direction="pas"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -179,6 +236,36 @@
 </connects>
 <technologies>
 <technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="EC12E_SW" prefix="SW">
+<description>ALPS rotary Encoder EC12E series with switch</description>
+<gates>
+<gate name="G$1" symbol="ENCODER" x="-10.16" y="-2.54" addlevel="always"/>
+<gate name="G$2" symbol="TASTER" x="10.16" y="5.08" addlevel="always"/>
+<gate name="G$3" symbol="GEHAEUSEANSCHLUSS" x="10.16" y="-5.08" addlevel="request"/>
+<gate name="G$4" symbol="GEHAEUSEANSCHLUSS" x="10.16" y="-7.62" addlevel="request"/>
+</gates>
+<devices>
+<device name="" package="ALPS_EC12E_SW">
+<connects>
+<connect gate="G$1" pin="A" pad="A"/>
+<connect gate="G$1" pin="B" pad="B"/>
+<connect gate="G$1" pin="C" pad="C"/>
+<connect gate="G$2" pin="1" pad="D"/>
+<connect gate="G$2" pin="2" pad="E"/>
+<connect gate="G$3" pin="G" pad="GND1"/>
+<connect gate="G$4" pin="G" pad="GND2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="MF" value="" constant="no"/>
+<attribute name="MPN" value="EC12E2424407" constant="no"/>
+<attribute name="OC_FARNELL" value="1520813" constant="no"/>
+<attribute name="OC_NEWARK" value="74M1068" constant="no"/>
+</technology>
 </technologies>
 </device>
 </devices>

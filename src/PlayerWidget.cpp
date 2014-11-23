@@ -64,7 +64,7 @@ PlayerWidget::PlayerWidget() {
 	stations.append( new StationObject( "Radio Hamburg",  "http://mp3.radiohamburg.c.nmdn.net/radiohamburg/livestream192.mp3",  "http://www.radiohamburg.de/var/data/titelanzeige/default-radiohh-100x66.jpg"));
 	stations.append( new StationObject( "Rock Antenne",  "http://www.rockantenne.de/webradio/rockantenne.m3u",  "http://www.rockantenne.de/imda/logos/600x600/ROCK-ANTENNE.png"));
 	stations.append( new StationObject( "RPR1", "http://rpr1.fmstreams.de/stream8", "http://static.rpr1.de/content/pictures/tpl/rpr1-logo.png"));
-	stations.append( new StationObject( "SWR1 Baden-Württemberg",  "http://mp3-live.swr.de/swr1bw_m.m3u",  "https://upload.wikimedia.org/wikipedia/de/3/38/SWR1_Logo_alt.svg"));
+	stations.append( new StationObject( "SWR1",  "http://mp3-live.swr.de/swr1bw_m.m3u",  "https://upload.wikimedia.org/wikipedia/de/3/38/SWR1_Logo_alt.svg"));
 	stations.append( new StationObject( "SWR3",  "http://mp3-live.swr3.de/swr3_m.m3u",  "http://www.swr3.de/-/id=404778/property=thumbnail/width=260/height=156/pubVersion=15/1ygku8j/index.jpg"));
 	stations.append( new StationObject( "Top 100 Station",  "http://www.top100station.de/switch/r3472.pls",  ""));
 	stations.append( new StationObject( "UnserDing",  "http://streaming01.sr-online.de/unserding_1.m3u",  "https://upload.wikimedia.org/wikipedia/de/f/f5/UnserDing.svg"));
