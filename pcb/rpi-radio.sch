@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.6.0">
+<eagle version="7.2.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -7736,8 +7736,8 @@ EC12E series with push-on switch</description>
 <instance part="R7" gate="G$1" x="60.96" y="60.96" rot="R90"/>
 <instance part="+3V9" gate="G$1" x="60.96" y="68.58"/>
 <instance part="GND9" gate="1" x="40.64" y="40.64" rot="R270"/>
-<instance part="+3V10" gate="G$1" x="43.18" y="25.4" rot="R90"/>
-<instance part="GND16" gate="1" x="45.72" y="33.02" rot="R270"/>
+<instance part="+3V10" gate="G$1" x="43.18" y="33.02" rot="R90"/>
+<instance part="GND16" gate="1" x="45.72" y="25.4" rot="R270"/>
 <instance part="C5" gate="G$1" x="50.8" y="30.48"/>
 <instance part="C6" gate="G$1" x="45.72" y="45.72" rot="R90"/>
 <instance part="C7" gate="G$1" x="45.72" y="38.1" rot="R90"/>
@@ -7829,14 +7829,6 @@ EC12E series with push-on switch</description>
 <pinref part="GND18" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="C5" gate="G$1" pin="1"/>
-<pinref part="IC2" gate="G$1" pin="VCC"/>
-<wire x1="50.8" y1="33.02" x2="60.96" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="33.02" x2="48.26" y2="33.02" width="0.1524" layer="91"/>
-<pinref part="GND16" gate="1" pin="GND"/>
-<junction x="50.8" y="33.02"/>
-</segment>
-<segment>
 <pinref part="IC1" gate="1" pin="GND"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 <wire x1="127" y1="147.32" x2="127" y2="149.86" width="0.1524" layer="91"/>
@@ -7850,6 +7842,15 @@ EC12E series with push-on switch</description>
 <segment>
 <pinref part="X2" gate="-2" pin="KL"/>
 <pinref part="GND2" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="C5" gate="G$1" pin="2"/>
+<pinref part="GND16" gate="1" pin="GND"/>
+<wire x1="48.26" y1="25.4" x2="50.8" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="GND"/>
+<wire x1="60.96" y1="30.48" x2="60.96" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="25.4" x2="60.96" y2="25.4" width="0.1524" layer="91"/>
+<junction x="50.8" y="25.4"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -7867,15 +7868,6 @@ EC12E series with push-on switch</description>
 <wire x1="167.64" y1="58.42" x2="167.64" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="GND"/>
-<wire x1="60.96" y1="30.48" x2="60.96" y2="25.4" width="0.1524" layer="91"/>
-<pinref part="C5" gate="G$1" pin="2"/>
-<wire x1="60.96" y1="25.4" x2="50.8" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="25.4" x2="45.72" y2="25.4" width="0.1524" layer="91"/>
-<pinref part="+3V10" gate="G$1" pin="+3V3"/>
-<junction x="50.8" y="25.4"/>
-</segment>
-<segment>
 <pinref part="IC1" gate="1" pin="OUT"/>
 <pinref part="+3V3" gate="G$1" pin="+3V3"/>
 <wire x1="144.78" y1="160.02" x2="139.7" y2="160.02" width="0.1524" layer="91"/>
@@ -7887,6 +7879,14 @@ EC12E series with push-on switch</description>
 <segment>
 <pinref part="SJ1" gate="1" pin="2"/>
 <pinref part="+3V1" gate="G$1" pin="+3V3"/>
+</segment>
+<segment>
+<pinref part="+3V10" gate="G$1" pin="+3V3"/>
+<pinref part="C5" gate="G$1" pin="1"/>
+<wire x1="45.72" y1="33.02" x2="50.8" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="VCC"/>
+<wire x1="50.8" y1="33.02" x2="60.96" y2="33.02" width="0.1524" layer="91"/>
+<junction x="50.8" y="33.02"/>
 </segment>
 </net>
 <net name="+5V" class="0">
