@@ -19,7 +19,7 @@ PlayerWidget::PlayerWidget() {
 	qmlRegisterType<QmlControl>("QmlControl", 1, 0, "Control");
 
 	QList<QObject *> stations;
-	stations.append( new StationObject( "1LIVE", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "http://www.einslive.de/codebase/img/content/1Live_Logo.jpg"));
+	stations.append( new StationObject( "1LIVE", "http://1live.akacast.akamaistream.net/7/706/119434/v1/gnl.akacast.akamaistream.net/1live", "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/1live.svg/250px-1live.svg.png"));
 	stations.append( new StationObject( "1LIVE diggi",  "http://1live-diggi.akacast.akamaistream.net/7/965/119435/v1/gnl.akacast.akamaistream.net/1live-diggi",  "https://upload.wikimedia.org/wikipedia/commons/4/4d/1LIVE_diggi.svg"));
 	stations.append( new StationObject( "89.0 RTL",  "http://mp3.89.0rtl.de:80/",  "http://www.89.0rtl.de/sites/default/files/insight_logo.png"));
 	stations.append( new StationObject( "B5 Aktuell",  "http://streams.br-online.de/b5aktuell_2.m3u",  "http://www.br.de/ressourcen/bilder/programmfahne_mit_logo/b5-aktuell-wellenlogo-102~_v-image256_-a42a29b6703dc477fd0848bc845b8be5c48c1667.jpg?version=24c68"));
@@ -69,7 +69,7 @@ PlayerWidget::PlayerWidget() {
 	stations.append( new StationObject( "Top 100 Station",  "http://www.top100station.de/switch/r3472.pls",  ""));
 	stations.append( new StationObject( "UnserDing",  "http://streaming01.sr-online.de/unserding_1.m3u",  "https://upload.wikimedia.org/wikipedia/de/f/f5/UnserDing.svg"));
 	stations.append( new StationObject( "WDR 2",  "http://www.wdr.de/wdrlive/media/wdr2.m3u",  "https://pbs.twimg.com/profile_images/2572773571/i5kwksvuf5tkncio6lwn_400x400.png"));
-	stations.append( new StationObject( "WDR 4",  "http://www.wdr.de/wdrlive/media/wdr4.m3u",  "http://www.wdr.de/radio/wdr4/_m/images/misc/wdr4_logo.png"));
+	stations.append( new StationObject( "WDR 4",  "http://www.wdr.de/wdrlive/media/wdr4.m3u",  "http://www.wdr4.de/resources/img/logos/wdr4.png"));
 	stations.append( new StationObject( "You FM",  "http://metafiles.gl-systemhaus.de/hr/youfm_2.m3u",  "http://www.you-fm.de/images/logo-youfm-3.jpg"));
 	rootContext()->setContextProperty("stationModel", QVariant::fromValue(stations));
 

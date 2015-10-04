@@ -13,7 +13,7 @@
 #include "lib/uartlibrary/uart.h"
 
 #ifndef F_CPU
-#define F_CPU 8000000UL
+#define F_CPU 14745600UL
 #endif
 
 #define UART_BAUD_RATE 9600
@@ -106,17 +106,21 @@ void encode_init( void ) {
 	int8_t new;
 
 	new = 0;
-	if( PHASE_0A )
+	if( PHASE_0A ) {
 		new = 3;
-	if( PHASE_0B )
+	}
+	if( PHASE_0B ) {
 		new ^= 1;
+	}
 	last0 = new;
 
 	new = 0;
-	if( PHASE_1A )
+	if( PHASE_1A ) {
 		new = 3;
-	if( PHASE_1B )
+	}
+	if( PHASE_1B ) {
 		new ^= 1;                              // convert gray to binary
+	}
 	last1 = new;                               // power on state
 
 	enc_delta0 = enc_delta1 = 0;
@@ -212,13 +216,13 @@ int main(void) {
 			uart_putc('\n');
 			last_enc_pos1 = enc_pos1;
 		}
-		if( get_key_press( 1<<KEY0 ) || get_key_rpt( 1<<KEY0 )){
+		if( get_key_press( 1<<KEY0 ) || get_key_rpt( 1<<KEY0 )) {
 			uart_puts("Button Pressed: L\n");
 		}
-		if( get_key_press( 1<<KEY1 ) || get_key_rpt( 1<<KEY1 )){
+		if( get_key_press( 1<<KEY1 ) || get_key_rpt( 1<<KEY1 )) {
 			uart_puts("Button Pressed: M\n");
 		}
-		if( get_key_press( 1<<KEY2 ) || get_key_rpt( 1<<KEY2 )){
+		if( get_key_press( 1<<KEY2 ) || get_key_rpt( 1<<KEY2 )) {
 			uart_puts("Button Pressed: R\n");
 		}
 	}
@@ -230,23 +234,27 @@ ISR( TIMER0_COMPA_vect ) {              // poll encoder
 	int8_t new, diff;
 
 	new = 0;
-	if( PHASE_0A )
+	if( PHASE_0A ) {
 		new = 3;
-	if( PHASE_0B )
+	}
+	if( PHASE_0B ) {
 		new ^= 1;                       // convert gray to binary
+	}
 	diff = last0 - new;                 // difference last - new
-	if( diff & 1 ){                     // bit 0 = value (1)
+	if( diff & 1 ) {                    // bit 0 = value (1)
 		last0 = new;                    // store new as next last
 		enc_delta0 += (diff & 2) - 1;   // bit 1 = direction (+/-)
 	}
 
 	new = 0;
-	if( PHASE_1A )
+	if( PHASE_1A ) {
 		new = 3;
-	if( PHASE_1B )
+	}
+	if( PHASE_1B ) {
 		new ^= 1;                       // convert gray to binary
+	}
 	diff = last1 - new;                 // difference last - new
-	if( diff & 1 ){                     // bit 0 = value (1)
+	if( diff & 1) {                     // bit 0 = value (1)
 		last1 = new;                    // store new as next last
 		enc_delta1 += (diff & 2) - 1;   // bit 1 = direction (+/-)
 	}
@@ -260,8 +268,9 @@ ISR( TIMER0_COMPA_vect ) {              // poll encoder
 	key_state ^= i;                                 // then toggle debounced state
 	key_press |= key_state & i;                     // 0->1: key press detect
 	
-	if( (key_state & REPEAT_MASK) == 0 )            // check repeat function
+	if( (key_state & REPEAT_MASK) == 0) {            // check repeat function
 		rpt = REPEAT_START;                          // start delay
+	}
 	if( --rpt == 0 ){
 		rpt = REPEAT_NEXT;                            // repeat delay
 		key_rpt |= key_state & REPEAT_MASK;
