@@ -3,4 +3,4 @@
 	url = https://github.com/Pieter-Jan/PJ_RPI.git
 [submodule "qtmpdclient"]
 	path = qtmpdclient
-	url = http://git.code.sf.net/p/openbooxproject/qtmpdclient
+	url = https://github.com/heinervdm/qtmpdclient.git
