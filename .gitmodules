@@ -1,3 +1,6 @@
 [submodule "PJ_RPI"]
 	path = PJ_RPI
 	url = https://github.com/Pieter-Jan/PJ_RPI.git
+[submodule "QtMtpClient"]
+	path = QtMtpClient
+	url = https://github.com/heinervdm/QtMtpClient
