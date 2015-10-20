@@ -1,8 +1,8 @@
 project(rpi-radio)
 cmake_minimum_required(VERSION 2.6)
 
-set(rpi-radio_HDRS include/QmlControl.h include/Controls.h include/Button.h include/Encoder.h include/PlayerWidget.h include/GPIO.h include/StationObject.h)
-set(rpi-radio_SRCS src/QmlControl.cpp src/Controls.cpp src/Button.cpp src/Encoder.cpp src/PlayerWidget.cpp src/GPIO.cpp src/StationObject.cpp main.cpp)
+file(GLOB rpi-radio_HDRS include/*.h PJ_RPI/PJ_RPI.h)
+file(GLOB rpi-radio_SRCS src/*.cpp PJ_RPI/PJ_RPI.c main.cpp)
 
 find_package(Qt5Core QUIET)
 if (DEFINED Qt5Core_INCLUDE_DIRS)
@@ -25,12 +25,14 @@ ELSE(DEFINED Qt5Core_INCLUDE_DIRS)
 	set(HAVE_QT4 ${TRUE})
 ENDIF(DEFINED Qt5Core_INCLUDE_DIRS)
 
-include_directories(${QtIncDirs} ${CMAKE_CURRENT_BINARY_DIR} include)
+include_directories(${QtIncDirs} ${CMAKE_CURRENT_BINARY_DIR} include PJ_RPI QtMtpClient)
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O2 -g -Wall -pthread -fstack-protector-all -Wstack-protector -Woverloaded-virtual -Wextra -Wshadow -Wsuggest-attribute=noreturn")
 
+add_subdirectory(QtMtpClient)
+
 add_executable(rpi-radio ${rpi-radio_SRCS} ${rpi-radio_RESOURCES_RCC} ${rpi-radio_MOC})
-target_link_libraries(rpi-radio ${QtLibs})
+target_link_libraries(rpi-radio ${QtLibs} QtMpdClient)
 install(TARGETS rpi-radio RUNTIME DESTINATION bin)
