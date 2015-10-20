@@ -1,7 +1,6 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
-#include "GPIO.h"
 #include <QObject>
 
 class Encoder : public QObject {
@@ -16,8 +15,8 @@ class Encoder : public QObject {
 		void init (int pina, int pinb, int pos = 0);
 		char enc_delta;
 		char last;
-		GPIO *pa, *pb;
 		int currentPos;
+		int lPina, lPinb;
 	private slots:
 		void read();
 		void read2();

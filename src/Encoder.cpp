@@ -1,4 +1,5 @@
 #include "Encoder.h"
+#include "PJ_RPI.h"
 
 #include <QTimer>
 
@@ -7,26 +8,26 @@ Encoder::Encoder (int pina, int pinb, int pos) : QObject() {
 }
 
 Encoder::~Encoder() {
-	delete pa;
-	delete pb;
 }
 
 void Encoder::init (int pina, int pinb, int pos) {
-	pa = new GPIO (pina, GPIO::in);
-	pb = new GPIO (pinb, GPIO::in);
+	lPina = pina;
+	lPinb = pinb;
+	INP_GPIO(lPina);
+	INP_GPIO(lPinb);
 
 	char newstate;
 
 	newstate = 0;
 
-	if (pa->read() == GPIO::high)
+	if (GPIO_READ(lPina))
 		newstate = 3;
 
-	if (pb->read() == GPIO::high)
+	if (GPIO_READ(lPinb))
 		newstate ^= 1;                              // convert gray to binary
 
 	last = newstate;                                // power on state
-	enc_delta = pos;
+	currentPos = pos;
 
 	QTimer *timer = new QTimer (this);
 	connect (timer, SIGNAL (timeout()), this, SLOT (read()));
@@ -41,10 +42,10 @@ void Encoder::read() {
 
 	newstate = 0;
 
-	if (pa->read() == GPIO::high)
+	if (GPIO_READ(lPina))
 		newstate = 3;
 
-	if (pb->read() == GPIO::high)
+	if (GPIO_READ(lPinb))
 		newstate ^= 1;                      // convert gray to binary
 
 	diff = last - newstate;                 // difference last - new
@@ -61,7 +62,13 @@ void Encoder::read2() {
 	val = enc_delta;
 	enc_delta = val & 1;
 	currentPos += val >> 1;
-	if ((val >> 1) != 0) emit newPos(currentPos);
+	if ((val >> 1) != 0) {
+		emit newPos(currentPos);
+// 		QKeyEvent *event;
+// 		if (enc_delta > 0) event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+// 		else event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+// 		QCoreApplication::postEvent (receiver, event);
+	}
 }
 
 void Encoder::setPos(int pos) {
