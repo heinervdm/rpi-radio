@@ -1,14 +1,8 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
 Rectangle {
-	id: main
-// 	implicitWidth: 320
-// 	implicitHeight: 240
-	z: 10
-// 	anchors.fill: parent
+	id: clock
 	color: "black"
-	property bool visibility: true
-	visible: visibility
 	signal clockClicked()
 
 	Timer {

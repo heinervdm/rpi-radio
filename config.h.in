@@ -1,0 +1,2 @@
+#cmakedefine HAVE_QT4
+#cmakedefine HAVE_QT5
