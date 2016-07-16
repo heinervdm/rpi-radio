@@ -9,12 +9,15 @@ Rectangle {
 
 	Component {
 		id: menuDelegate
-		Item {
+		Rectangle {
 			width: parent.width
 			height: 40
 			Column {
 				Text {
-					color: "white"
+					color: {
+						if (current) "black"
+						else "white"
+					}
 					text: '<b>' + title +'</b><br/>' + subtitle
 				}
 			}
@@ -25,6 +28,12 @@ Rectangle {
 					menuList.entrySelected(key, title)
 				}
 			}
+			color: {
+				if (menuview.currentIndex == index) "lightsteelblue"
+				else if (current) "yellow";
+				else "black"
+			}
+			radius: 5
 		}
 	}
 
@@ -34,10 +43,6 @@ Rectangle {
 		height: parent.height/4*3-1
 		model: menuEntries
 		delegate: menuDelegate
-		highlight: Rectangle {
-			color: "lightsteelblue"
-			radius: 5
-		}
 		focus: true
 
 		Keys.onPressed: {

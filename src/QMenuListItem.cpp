@@ -5,8 +5,8 @@ QMenuListItem::QMenuListItem(QObject *p)
 {
 }
 
-QMenuListItem::QMenuListItem(const QString &t, const QString &st, const QString &k, QObject *p)
-    : QObject(p), m_title(t), m_subtitle(st), m_key(k)
+QMenuListItem::QMenuListItem(const QString &t, const QString &st, const QString &k, bool c, QObject *p)
+    : QObject(p), m_title(t), m_subtitle(st), m_key(k), m_current(c)
 {
 }
 
@@ -48,3 +48,14 @@ void QMenuListItem::setKey(const QString &k)
         emit keyChanged();
     }
 }
+
+bool QMenuListItem::isCurrent()
+{
+	return m_current;
+}
+
+void QMenuListItem::setCurrent(bool current)
+{
+	m_current = current;
+}
+

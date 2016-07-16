@@ -49,6 +49,7 @@ Item {
 		onBrowseClicked: state = "MENU"
 		onPlayClicked: playStopClicked()
 		onBackClicked: state = "PLAYER"
+		onPlaylistClicked: state = "PLAYLIST"
 		onEntrySelected: menuItemSelected(key, name)
 	}
 
@@ -69,6 +70,13 @@ Item {
 		},
 		State {
 			name: "MENU"
+			PropertyChanges {
+				target: pageLoader
+				source: "MenuList.qml"
+			}
+		},
+		State {
+			name: "PLAYLIST"
 			PropertyChanges {
 				target: pageLoader
 				source: "MenuList.qml"

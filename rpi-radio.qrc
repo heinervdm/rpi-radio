@@ -3,13 +3,10 @@
 
 <qresource prefix="/">
 	<file>qml/main.qml</file>
-	<file>qml/Player.qml</file>
 	<file>qml/MpdPlayer.qml</file>
 	<file>qml/MenuList.qml</file>
 	<file>qml/Volume.qml</file>
 	<file>qml/Clock.qml</file>
-	<file>qml/Stations.qml</file>
-	<file>qml/StationList.qml</file>
 	<file>qml/CoverFlow.qml</file>
 	<file>qml/test.qml</file>
 	<file>icons/play.svg</file>

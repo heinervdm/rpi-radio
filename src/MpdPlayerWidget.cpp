@@ -72,16 +72,34 @@ void MpdPlayerWidget::stateChanged() {
 	qDebug() << "MpdPlayerWidget:" << "State changed " + qmlState->read().toString();
 
 	if (qmlState->read().toString() == "MENU") {
-		currentPath = "root";
+		currentPath = "";
 		populateMenu();
+	} else if (qmlState->read().toString() == "PLAYLIST") {
+		populatePlaylist();
 	}
+}
+
+void MpdPlayerWidget::populatePlaylist() {
+	QList<QObject *> playlist;
+	if (!connected) connected = mpd->connectToServer("localhost",6600);
+	if (connected) {
+		QMpdSongList list = mpd->syncPlaylist();
+		for (auto song : list) {
+			 bool current = false;
+			if (song.uri() == mpd->song().uri()) {
+				current = true;
+			}
+			playlist.append( new QMenuListItem(song.title(), song.artist()+" ("+song.album()+")", "song:"+song.uri(), current));
+		}
+	}
+	rootContext()->setContextProperty("menuEntries", QVariant::fromValue(playlist));
 }
 
 void MpdPlayerWidget::populateMenu() {
 	QList<QObject *> menu;
-	if (currentPath == "root") {
-		menu.append( new QMenuListItem( "Stations", "", "list"));
-	} else {
+// 	if (currentPath == "root") {
+// 		menu.append( new QMenuListItem( "Stations", "", "list"));
+// 	} else {
 		if (!connected) connected = mpd->connectToServer("localhost",6600);
 		if (connected) {
 			QMpdEntityList list = mpd->ls(currentPath);
@@ -107,7 +125,7 @@ void MpdPlayerWidget::populateMenu() {
 				}
 			}
 		}
-	}
+// 	}
 	rootContext()->setContextProperty("menuEntries", QVariant::fromValue(menu));
 }
 
@@ -121,8 +139,10 @@ void MpdPlayerWidget::onMenuItemSelected(QString key, QString name) {
 		qDebug() << "MpdPlayerWidget:" << "Song selected";
 		qmlState->write("PLAYER");
 		if (connected) {
-			mpd->addToPlaylist(key.remove(0,5));
-			mpd->play();
+			key.remove(0,5);
+			int id = mpd->addToPlaylist(key);
+			qDebug() << "MpdPlayerWidget:" << "Playing" << key << ", id:" << id;
+			mpd->play(id);
 		}
 	} else if (key.startsWith("dir:")) {
 		qDebug() << "MpdPlayerWidget:" << "directory selected";
@@ -135,6 +155,8 @@ void MpdPlayerWidget::onMenuItemSelected(QString key, QString name) {
 			mpd->loadPlaylist(name);
 			mpd->play();
 		}
+	} else {
+		qDebug() << "MpdPlayerWidget:" << "Unkown key found:" << key;
 	}
 }
 

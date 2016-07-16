@@ -91,7 +91,7 @@ Rectangle {
 		height: parent.height/4-1
 		border.width: 1
 		border.color: "white"
-		anchors.right: playlist.left
+		anchors.horizontalCenter: player.horizontalCenter
 		anchors.bottom: player.bottom
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width

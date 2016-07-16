@@ -24,6 +24,7 @@ private slots:
 	void setVolume(int v);
 	void stateChanged();
 	void populateMenu();
+	void populatePlaylist();
 	void onMenuItemSelected(QString key, QString name);
 	void onSongChanged(const QMpdSong& song);
 	void onMpdStatusChanged(const QMpdStatus::State state);
