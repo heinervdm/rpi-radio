@@ -72,14 +72,14 @@ Item {
 			name: "MENU"
 			PropertyChanges {
 				target: pageLoader
-				source: "MenuList.qml"
+				source: "Browse.qml"
 			}
 		},
 		State {
 			name: "PLAYLIST"
 			PropertyChanges {
 				target: pageLoader
-				source: "MenuList.qml"
+				source: "Playlist.qml"
 			}
 		}
 	]
