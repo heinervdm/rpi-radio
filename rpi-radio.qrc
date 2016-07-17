@@ -4,7 +4,9 @@
 <qresource prefix="/">
 	<file>qml/main.qml</file>
 	<file>qml/MpdPlayer.qml</file>
-	<file>qml/MenuList.qml</file>
+	<file>qml/List.qml</file>
+	<file>qml/Browse.qml</file>
+	<file>qml/Playlist.qml</file>
 	<file>qml/Volume.qml</file>
 	<file>qml/Clock.qml</file>
 	<file>qml/CoverFlow.qml</file>
@@ -13,6 +15,11 @@
 	<file>icons/pause.svg</file>
 	<file>icons/browse.svg</file>
 	<file>icons/list.svg</file>
+	<file>icons/arrow-left-a.svg</file>
+	<file>icons/trash-a.svg</file>
+	<file>icons/loop.svg</file>
+	<file>icons/refresh.svg</file>
+	<file>icons/shuffle.svg</file>
 </qresource>
 
 </RCC>
