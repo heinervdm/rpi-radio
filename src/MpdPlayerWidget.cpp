@@ -15,7 +15,7 @@ MpdPlayerWidget::MpdPlayerWidget() {
 	currentPath = "";
 
 	QList<QObject *> menu;
-	rootContext()->setContextProperty("menuEntries", QVariant::fromValue(menu));
+	rootContext()->setContextProperty("listEntries", QVariant::fromValue(menu));
 	rootContext()->setContextProperty("volume", QVariant::fromValue<int>(mpd->status().volume()));
 	rootContext()->setContextProperty("playing", QVariant::fromValue<bool>(mpd->status().state() == QMpdStatus::StatePlay));
 	rootContext()->setContextProperty("songName", QVariant::fromValue<QString>(mpd->song().title()));
@@ -92,7 +92,7 @@ void MpdPlayerWidget::populatePlaylist() {
 			playlist.append( new QMenuListItem(song.title(), song.artist()+" ("+song.album()+")", "song:"+song.uri(), current));
 		}
 	}
-	rootContext()->setContextProperty("menuEntries", QVariant::fromValue(playlist));
+	rootContext()->setContextProperty("listEntries", QVariant::fromValue(playlist));
 }
 
 void MpdPlayerWidget::populateMenu() {
@@ -126,7 +126,7 @@ void MpdPlayerWidget::populateMenu() {
 			}
 		}
 // 	}
-	rootContext()->setContextProperty("menuEntries", QVariant::fromValue(menu));
+	rootContext()->setContextProperty("listEntries", QVariant::fromValue(menu));
 }
 
 void MpdPlayerWidget::onMenuItemSelected(QString key, QString name) {
