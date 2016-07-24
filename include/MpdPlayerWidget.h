@@ -29,6 +29,7 @@ private slots:
 	void onSongChanged(const QMpdSong& song);
 	void onMpdStatusChanged(const QMpdStatus::State state);
 	void onPlayStopClicked();
+	void onPlaylistClearClicked();
 };
 
 #endif // MPDPLAYERWIDGET_H

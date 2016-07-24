@@ -4,15 +4,18 @@ Rectangle {
 	id: list
 	color: "black"
 	anchors.fill: parent
-	property ListElement currentItem
+	property string currentKey
+	property string currentTitle
 	signal entrySelected(string key, string name)
-	function itemSelected() {
-		entrySelected(listview.currentItem.key, listview.currentItem.name)
+	signal itemClicked()
+	function getSelectedItem() {
+		entrySelected(currentKey, currentTitle)
 	}
 
 	Component {
 		id: listDelegate
 		Rectangle {
+			id: wrapper
 			width: parent.width
 			height: 40
 			Column {
@@ -27,8 +30,13 @@ Rectangle {
 			MouseArea{
 				anchors.fill: parent
 				onClicked: {
+					console.log("Selecting index: " + index +", key: "+key+", title: "+title)
 					listview.currentIndex = index
-					list.entrySelected(key, title)
+					currentKey = key
+					currentTitle = title
+					console.log("Selecting index: " + listview.currentIndex +", key: "+listview.currentItem.key+", title: "+listview.currentItem.title)
+					itemClicked()
+// 					list.entrySelected(key, title)
 				}
 			}
 			color: {
@@ -62,7 +70,10 @@ Rectangle {
 				}
 			}
 			else if (event.key == Qt.Key_Return) {
-				list.entrySelected(listview.currentItem.key, listview.currentItem.name)
+				currentKey = listview.currentItem.key
+				currentTitle = listview.currentItem.title
+				list.itemClicked()
+// 				list.entrySelected(listview.currentItem.key, listview.currentItem.name)
 			}
 		}
 

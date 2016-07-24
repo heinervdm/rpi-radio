@@ -26,6 +26,7 @@ MpdPlayerWidget::MpdPlayerWidget() {
 	connect(rootObject(), SIGNAL(newVolume(int)), this, SLOT(setVolume(int)));
 	connect(rootObject(), SIGNAL(menuItemSelected(QString, QString)), this, SLOT(onMenuItemSelected(QString,QString)));
 	connect(rootObject(), SIGNAL(playStopClicked()), this, SLOT(onPlayStopClicked()));
+	connect(rootObject(), SIGNAL(playlistClearClicked()), this, SLOT(onPlaylistClearClicked()));
 	qmlState = new QDeclarativeProperty(rootObject(), "state");
 	qmlState->connectNotifySignal(this, SLOT(stateChanged()));
 
@@ -191,3 +192,9 @@ void MpdPlayerWidget::onPlayStopClicked() {
 		}
 	}
 }
+
+void MpdPlayerWidget::onPlaylistClearClicked() {
+	mpd->clearPlaylist();
+	populatePlaylist();
+}
+

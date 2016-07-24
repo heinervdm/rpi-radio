@@ -12,6 +12,7 @@ Item {
 	signal newVolume(int v)
 	signal menuItemSelected(string key, string menu)
 	signal playStopClicked()
+	signal playlistClearClicked()
 
 	onVolumeChanged: {
 		 volumeWidget.setVolume(volume)
@@ -51,6 +52,7 @@ Item {
 		onBackClicked: state = "PLAYER"
 		onPlaylistClicked: state = "PLAYLIST"
 		onEntrySelected: menuItemSelected(key, name)
+		onClearClicked: playlistClearClicked()
 	}
 
 	states: [

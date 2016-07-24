@@ -8,6 +8,7 @@ Rectangle {
 
 	List {
 		id: menuList
+		onItemClicked: getSelectedItem()
 	}
 
 	Rectangle {
@@ -29,7 +30,7 @@ Rectangle {
 		MouseArea{
 			id: leftMouseArea
 			anchors.fill: parent
-			onClicked: menuList.itemSelected()
+			onClicked: menuList.getSelectedItem()
 		}
 		color: leftMouseArea.pressed || parent.selected == 1 ? "grey" : parent.color
 	}

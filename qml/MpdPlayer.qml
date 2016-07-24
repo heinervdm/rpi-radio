@@ -65,12 +65,6 @@ Rectangle {
 		anchors.left: player.left
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
-// 		Text {
-// 			font.pixelSize: parent.height * 0.55
-// 			anchors.centerIn: parent
-// 			color: "white"
-// 			text: "Browse"
-// 		}
 		Image {
 			sourceSize.height: parent.height*0.55
 			fillMode: Image.PreserveAspectFit
@@ -95,12 +89,6 @@ Rectangle {
 		anchors.bottom: player.bottom
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
-// 		Text {
-// 			font.pixelSize: parent.height * 0.55
-// 			anchors.centerIn: parent
-// 			color: "white"
-// 			text: (playing) ? "Stop" : "Play"
-// 		}
 		Image {
 			sourceSize.height: parent.height*0.55
 			fillMode: Image.PreserveAspectFit
@@ -125,12 +113,6 @@ Rectangle {
 		anchors.bottom: player.bottom
 		anchors.leftMargin: border.width
 		anchors.bottomMargin: border.width
-// 		Text {
-// 			font.pixelSize: parent.height * 0.55
-// 			anchors.centerIn: parent
-// 			color: "white"
-// 			text: "Playlist"
-// 		}
 		Image {
 			sourceSize.height: parent.height*0.55
 			fillMode: Image.PreserveAspectFit
@@ -142,6 +124,6 @@ Rectangle {
 			anchors.fill: parent
 			onClicked: player.playlistClicked()
 		}
-		color: playlistMouseArea.pressed || parent.selected == 2 ? "grey" : parent.color
+		color: playlistMouseArea.pressed || parent.selected == 3 ? "grey" : parent.color
 	}
 }
